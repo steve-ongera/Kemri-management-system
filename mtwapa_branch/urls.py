@@ -62,6 +62,10 @@ urlpatterns = [
     path('lab-tests/add/', views.labtest_create, name='labtest_create'),
     path('lab-tests/<int:pk>/edit/', views.labtest_update, name='labtest_update'),
     path('lab-tests/<int:pk>/delete/', views.labtest_delete, name='labtest_delete'),
+
+    path('register/', views.register, name='register'),
+    path('login/', views.user_login, name='login'),
+    path('logout/', views.user_logout, name='logout'),
 ]
 
 

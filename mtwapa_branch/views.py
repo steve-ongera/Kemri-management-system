@@ -1,5 +1,7 @@
 # views.py
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
 from .models import *
 from .forms import *
 # List view
@@ -424,3 +426,41 @@ def labtest_delete(request, pk):
         test.delete()
         return redirect('labtest_list')
     return render(request, 'labtest/labtest_confirm_delete.html', {'test': test})
+
+
+def register(request):
+    if request.method == 'POST':
+        form = CustomUserRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')  # Redirect to login page after successful registration
+    else:
+        form = CustomUserRegistrationForm()
+
+    return render(request, 'auth/register.html', {'form': form})
+
+
+
+def user_login(request):
+    if request.method == 'POST':
+        form = CustomUserLoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('home')  # Redirect to a protected page or homepage after login
+            else:
+                form.add_error(None, 'Invalid username or password')
+    else:
+        form = CustomUserLoginForm()
+
+    return render(request, 'auth/login.html', {'form': form})
+
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('login')  # Redirect to login page after logout
