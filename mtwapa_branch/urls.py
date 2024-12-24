@@ -26,4 +26,17 @@ urlpatterns = [
     path('departments/add/', views.department_create, name='department_create'),
     path('departments/<int:pk>/edit/', views.department_update, name='department_update'),
     path('departments/<int:pk>/delete/', views.department_delete, name='department_delete'),
+
+    path('appointments/', views.appointment_list, name='appointment_list'),
+    path('appointments/<int:pk>/', views.appointment_detail, name='appointment_detail'),
+    path('appointments/add/', views.appointment_create, name='appointment_create'),
+    path('appointments/<int:pk>/edit/', views.appointment_update, name='appointment_update'),
+    path('appointments/<int:pk>/delete/', views.appointment_delete, name='appointment_delete'),
+
+    path('medical-records/', views.medical_record_list, name='medical_record_list'),
+    path('medical-records/<int:pk>/', views.medical_record_detail, name='medical_record_detail'),
+    path('medical-records/add/', views.medical_record_create, name='medical_record_create'),
+    path('medical-records/<int:pk>/edit/', views.medical_record_update, name='medical_record_update'),
+    path('medical-records/<int:pk>/delete/', views.medical_record_delete, name='medical_record_delete'),
 ]
+

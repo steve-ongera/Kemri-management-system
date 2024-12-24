@@ -210,3 +210,45 @@ def appointment_delete(request, pk):
         appointment.delete()
         return redirect('appointment_list')
     return render(request, 'appointment/appointment_confirm_delete.html', {'appointment': appointment})
+
+
+# List View
+def medical_record_list(request):
+    records = MedicalRecord.objects.all()
+    return render(request, 'medical_record/medical_record_list.html', {'records': records})
+
+# Detail View
+def medical_record_detail(request, pk):
+    record = get_object_or_404(MedicalRecord, pk=pk)
+    return render(request, 'medical_record/medical_record_detail.html', {'record': record})
+
+# Create View
+def medical_record_create(request):
+    if request.method == 'POST':
+        form = MedicalRecordForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('medical_record_list')
+    else:
+        form = MedicalRecordForm()
+    return render(request, 'medical_record/medical_record_form.html', {'form': form})
+
+# Update View
+def medical_record_update(request, pk):
+    record = get_object_or_404(MedicalRecord, pk=pk)
+    if request.method == 'POST':
+        form = MedicalRecordForm(request.POST, instance=record)
+        if form.is_valid():
+            form.save()
+            return redirect('medical_record_list')
+    else:
+        form = MedicalRecordForm(instance=record)
+    return render(request, 'medical_record/medical_record_form.html', {'form': form})
+
+# Delete View
+def medical_record_delete(request, pk):
+    record = get_object_or_404(MedicalRecord, pk=pk)
+    if request.method == 'POST':
+        record.delete()
+        return redirect('medical_record_list')
+    return render(request, 'medical_record/medical_record_confirm_delete.html', {'record': record})

@@ -48,3 +48,19 @@ class AppointmentForm(forms.ModelForm):
         widgets = {
             'date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
+
+
+class MedicalRecordForm(forms.ModelForm):
+    class Meta:
+        model = MedicalRecord
+        fields = [
+            'patient', 'doctor', 'date', 'visit_reason',
+            'diagnosis', 'symptoms', 'physical_examination',
+            'vital_signs', 'tests_ordered', 'test_results',
+            'prescription', 'procedures', 'follow_up_date',
+            'additional_notes',
+        ]
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'follow_up_date': forms.DateInput(attrs={'type': 'date'}),
+        }
