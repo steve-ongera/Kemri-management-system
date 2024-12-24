@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Staff Details</h1>
+<img src="{{ staff_member.profile_picture.url }}" alt="Profile Picture" style="max-width: 200px;">
+<p><strong>Name:</strong> {{ staff_member.first_name }} {{ staff_member.last_name }}</p>
+<p><strong>Position:</strong> {{ staff_member.position }}</p>
+<p><strong>Department:</strong> {{ staff_member.department }}</p>
+<p><strong>Email:</strong> {{ staff_member.email }}</p>
+<p><strong>Phone:</strong> {{ staff_member.phone }}</p>
+<p><strong>Access Level:</strong> {{ staff_member.access_level }}</p>
+<p><strong>Qualifications:</strong> {{ staff_member.qualifications }}</p>
+<a href="{% url 'staff_update' staff_member.pk %}">Edit</a>
+<a href="{% url 'staff_list' %}">Back to List</a>
+{% endblock %}

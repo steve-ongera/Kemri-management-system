@@ -64,3 +64,34 @@ class MedicalRecordForm(forms.ModelForm):
             'date': forms.DateInput(attrs={'type': 'date'}),
             'follow_up_date': forms.DateInput(attrs={'type': 'date'}),
         }
+
+
+class StaffForm(forms.ModelForm):
+    class Meta:
+        model = Staff
+        fields = [
+            'first_name', 'last_name', 'phone', 'email', 'identification_no',
+            'date_of_birth', 'gender', 'profile_picture', 'position',
+            'department', 'employee_id', 'date_hired', 'contract_type',
+            'salary', 'shift', 'address', 'city', 'region', 'emergency_contact_name',
+            'emergency_contact_phone', 'access_level', 'is_active',
+            'qualifications', 'experience_years', 'skills'
+        ]
+        widgets = {
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+            'date_hired': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+
+class NonStaffForm(forms.ModelForm):
+    class Meta:
+        model = NonStaff
+        fields = [
+            'first_name', 'last_name', 'email', 'phone_number', 'date_of_birth',
+            'gender', 'national_id', 'passport_number', 'photo', 'role',
+            'department', 'assigned_supervisor', 'address',
+            'emergency_contact_name', 'emergency_contact_phone', 'profile_picture'
+        ]
+        widgets = {
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+        }

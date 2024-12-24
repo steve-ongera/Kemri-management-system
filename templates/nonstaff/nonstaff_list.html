@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Non-Staff Members</h1>
+<a href="{% url 'nonstaff_create' %}">Add New Non-Staff Member</a>
+<ul>
+    {% for member in nonstaff_members %}
+    <li>
+        <a href="{% url 'nonstaff_detail' member.pk %}">{{ member.first_name }} {{ member.last_name }} ({{ member.role }})</a>
+        - <a href="{% url 'nonstaff_update' member.pk %}">Edit</a>
+        - <a href="{% url 'nonstaff_delete' member.pk %}">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -38,5 +38,17 @@ urlpatterns = [
     path('medical-records/add/', views.medical_record_create, name='medical_record_create'),
     path('medical-records/<int:pk>/edit/', views.medical_record_update, name='medical_record_update'),
     path('medical-records/<int:pk>/delete/', views.medical_record_delete, name='medical_record_delete'),
+
+    path('staff/', views.staff_list, name='staff_list'),
+    path('staff/<int:pk>/', views.staff_detail, name='staff_detail'),
+    path('staff/add/', views.staff_create, name='staff_create'),
+    path('staff/<int:pk>/edit/', views.staff_update, name='staff_update'),
+    path('staff/<int:pk>/delete/', views.staff_delete, name='staff_delete'),
+
+    path('nonstaff/', views.nonstaff_list, name='nonstaff_list'),
+    path('nonstaff/<int:pk>/', views.nonstaff_detail, name='nonstaff_detail'),
+    path('nonstaff/add/', views.nonstaff_create, name='nonstaff_create'),
+    path('nonstaff/<int:pk>/edit/', views.nonstaff_update, name='nonstaff_update'),
+    path('nonstaff/<int:pk>/delete/', views.nonstaff_delete, name='nonstaff_delete'),
 ]
 

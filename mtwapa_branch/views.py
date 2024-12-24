@@ -252,3 +252,89 @@ def medical_record_delete(request, pk):
         record.delete()
         return redirect('medical_record_list')
     return render(request, 'medical_record/medical_record_confirm_delete.html', {'record': record})
+
+
+
+# List View
+def staff_list(request):
+    staff_members = Staff.objects.all()
+    return render(request, 'staff/staff_list.html', {'staff_members': staff_members})
+
+# Detail View
+def staff_detail(request, pk):
+    staff_member = get_object_or_404(Staff, pk=pk)
+    return render(request, 'staff/staff_detail.html', {'staff_member': staff_member})
+
+# Create View
+def staff_create(request):
+    if request.method == 'POST':
+        form = StaffForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('staff_list')
+    else:
+        form = StaffForm()
+    return render(request, 'staff/staff_form.html', {'form': form})
+
+# Update View
+def staff_update(request, pk):
+    staff_member = get_object_or_404(Staff, pk=pk)
+    if request.method == 'POST':
+        form = StaffForm(request.POST, request.FILES, instance=staff_member)
+        if form.is_valid():
+            form.save()
+            return redirect('staff_list')
+    else:
+        form = StaffForm(instance=staff_member)
+    return render(request, 'staff/staff_form.html', {'form': form})
+
+# Delete View
+def staff_delete(request, pk):
+    staff_member = get_object_or_404(Staff, pk=pk)
+    if request.method == 'POST':
+        staff_member.delete()
+        return redirect('staff_list')
+    return render(request, 'staff/staff_confirm_delete.html', {'staff_member': staff_member})
+
+
+
+# List View
+def nonstaff_list(request):
+    nonstaff_members = NonStaff.objects.all()
+    return render(request, 'nonstaff/nonstaff_list.html', {'nonstaff_members': nonstaff_members})
+
+# Detail View
+def nonstaff_detail(request, pk):
+    nonstaff_member = get_object_or_404(NonStaff, pk=pk)
+    return render(request, 'nonstaff/nonstaff_detail.html', {'nonstaff_member': nonstaff_member})
+
+# Create View
+def nonstaff_create(request):
+    if request.method == 'POST':
+        form = NonStaffForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('nonstaff_list')
+    else:
+        form = NonStaffForm()
+    return render(request, 'nonstaff/nonstaff_form.html', {'form': form})
+
+# Update View
+def nonstaff_update(request, pk):
+    nonstaff_member = get_object_or_404(NonStaff, pk=pk)
+    if request.method == 'POST':
+        form = NonStaffForm(request.POST, request.FILES, instance=nonstaff_member)
+        if form.is_valid():
+            form.save()
+            return redirect('nonstaff_list')
+    else:
+        form = NonStaffForm(instance=nonstaff_member)
+    return render(request, 'nonstaff/nonstaff_form.html', {'form': form})
+
+# Delete View
+def nonstaff_delete(request, pk):
+    nonstaff_member = get_object_or_404(NonStaff, pk=pk)
+    if request.method == 'POST':
+        nonstaff_member.delete()
+        return redirect('nonstaff_list')
+    return render(request, 'nonstaff/nonstaff_confirm_delete.html', {'nonstaff_member': nonstaff_member})

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Staff Members</h1>
+<a href="{% url 'staff_create' %}">Add New Staff</a>
+<ul>
+    {% for staff in staff_members %}
+    <li>
+        <a href="{% url 'staff_detail' staff.pk %}">{{ staff.first_name }} {{ staff.last_name }} ({{ staff.position }})</a>
+        - <a href="{% url 'staff_update' staff.pk %}">Edit</a>
+        - <a href="{% url 'staff_delete' staff.pk %}">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
