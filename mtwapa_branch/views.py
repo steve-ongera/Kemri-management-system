@@ -169,3 +169,44 @@ def department_delete(request, pk):
         department.delete()
         return redirect('department_list')
     return render(request, 'department/department_confirm_delete.html', {'department': department})
+
+# List view
+def appointment_list(request):
+    appointments = Appointment.objects.all()
+    return render(request, 'appointment/appointment_list.html', {'appointments': appointments})
+
+# Detail view
+def appointment_detail(request, pk):
+    appointment = get_object_or_404(Appointment, pk=pk)
+    return render(request, 'appointment/appointment_detail.html', {'appointment': appointment})
+
+# Create view
+def appointment_create(request):
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('appointment_list')
+    else:
+        form = AppointmentForm()
+    return render(request, 'appointment/appointment_form.html', {'form': form})
+
+# Update view
+def appointment_update(request, pk):
+    appointment = get_object_or_404(Appointment, pk=pk)
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST, instance=appointment)
+        if form.is_valid():
+            form.save()
+            return redirect('appointment_list')
+    else:
+        form = AppointmentForm(instance=appointment)
+    return render(request, 'appointment/appointment_form.html', {'form': form})
+
+# Delete view
+def appointment_delete(request, pk):
+    appointment = get_object_or_404(Appointment, pk=pk)
+    if request.method == 'POST':
+        appointment.delete()
+        return redirect('appointment_list')
+    return render(request, 'appointment/appointment_confirm_delete.html', {'appointment': appointment})

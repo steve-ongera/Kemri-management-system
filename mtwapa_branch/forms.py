@@ -40,3 +40,11 @@ class DepartmentForm(forms.ModelForm):
         fields = [
             'name', 'description', 'head', 'phone', 'email', 'research_focus'
         ]
+
+class AppointmentForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ['patient', 'doctor', 'date', 'reason', 'status']
+        widgets = {
+            'date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
