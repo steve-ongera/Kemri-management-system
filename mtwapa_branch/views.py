@@ -14,6 +14,8 @@ def dashboard(request):
     # Date ranges
     today = datetime.now()
     last_30_days = today - timedelta(days=30)
+    doctors = Doctor.objects.all()
+    patients = Doctor.objects.all()[:6]
     
     # Basic stats
     context = {
@@ -21,6 +23,8 @@ def dashboard(request):
         'total_patients': Patient.objects.count(),
         'total_appointments': Appointment.objects.filter(status='scheduled').count(),
         'total_departments': Department.objects.count(),
+        'doctors': doctors,
+        'patients':patients,
     }
     
     # Appointments by day

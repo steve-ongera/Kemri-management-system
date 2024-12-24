@@ -83,14 +83,14 @@
               </div>
 
               <div class="card-body">
-                <h5 class="card-title">Students <span>| This Month</span></h5>
+                <h5 class="card-title">Patients <span>| This Month</span></h5>
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-people"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>{{ total_students }} </h6>
+                    <h6>{{ total_patients}} </h6>
                     <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
 
                   </div>
@@ -119,14 +119,14 @@
               </div>
 
               <div class="card-body">
-                <h5 class="card-title">Countys <span>| This Year</span></h5>
+                <h5 class="card-title">Appointments <span>| 2024</span></h5>
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-pin-map"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>{{ total_counties }}</h6>
+                    <h6>{{ total_appointments }}</h6>
                     <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
 
                   </div>
@@ -155,7 +155,7 @@
               </div>
 
               <div class="card-body">
-                <h5 class="card-title">Reports <span>/Today</span></h5>
+                <h5 class="card-title">Reports <span>/2024</span></h5>
 
                 <!-- Line Chart -->
                 <div id="reportsChart"></div>
@@ -236,28 +236,28 @@
                 </ul>
               </div>
               
-              {% if latest_session %}
+            
               <div class="card-body">
-                <h5 class="card-title">Top Counties <span>| Today</span></h5>
+                <h5 class="card-title">Doctors <span>| Today</span></h5>
 
                 <table class="table table-borderless datatable">
                   <thead>
                     <tr>
-                      <th scope="col">Name</th>
-                      <th scope="col">Average points</th>
-                      <th scope="col">Product</th>
-                      <th scope="col">Price</th>
-                      <th scope="col">Status</th>
+                      <th scope="col">First Name</th>
+                      <th scope="col">Last Name</th>
+                      <th scope="col">specialization</th>
+                      <th scope="col">ID number</th>
+                      <th scope="col">phone</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for county in top_counties %}
+                    {% for doctor in doctors %}
                     <tr>
-                      <th scope="row"><a href="#">{{ county.name }}</a></th>
-                      <td>{{ county.avg_points }}</td>
-                      <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                      <td>$64</td>
-                      <td><span class="badge bg-success">Approved</span></td>
+                      <th scope="row"><a href="#">{{ doctor.first_name }}</a></th>
+                      <td>{{ doctor.last_name}}</td>
+                      <td><a href="#" class="text-primary">{{ doctor.specialization}}</a></td>
+                      <td>{{ doctor.identification_no}}</td>
+                      <td>{{ doctor.phone}}</td>
                     </tr>
 
                    {% endfor  %}
@@ -270,9 +270,7 @@
             </div>
           </div>
           
-          {% else %}
-          <p>No examination session data available.</p>
-          {% endif %}
+        
           <!-- End county ranking-->
 
           <!-- Top 10 Students -->
@@ -293,33 +291,31 @@
               </div>
 
               <div class="card-body pb-0">
-                <h5 class="card-title">Top Student <span>| Today</span></h5>
+                <h5 class="card-title">Patients <span>| Today</span></h5>
 
                 <table class="table table-borderless">
                   <thead>
                     <tr>
                       <th scope="col">Profile</th>
-                        <th scope="col">Reg</th>
-                        <th scope="col"> Name</th>
-                        <th scope="col">School</th>
-                        <th scope="col"> Score</th>
-                        <th scope="col">Mean </th>
-                        <th scope="col">pts</th>
-                        <th scope="col">Session</th>
+                        <th scope="col"> name</th>
+                        <th scope="col">phone</th>
+                        <th scope="col"> ID Number </th>
+                        <th scope="col">address</th>
+                        <th scope="col"> DOB</th>
+                
                     </tr>
                   </thead>
                   <tbody>
                     
-                    {% for student_data in students_with_school %}
+                    {% for patient in patients%}
                     <tr>
-                      <th scope="row"><a  href="{% url 'student_detail' student_id=student_data.student.id %}"><img style="width: 40px ; height: 40px" src="{% static 'assets/img/profile.png'%}" alt=""></a></th>
-                      <td><a  href="{% url 'student_detail' student_id=student_data.student.id %}" class="text-primary fw-bold">{{ student_data.student.index_number }}</a></td>
-                      <td>{{ student_data.student.first_name }} {{ student_data.student.last_name }}</td>
-                      <td class="fw-bold">{{ student_data.school.name }}</td>
-                      <td>{{ student_data.performance.total_score }}</td>
-                      <td>{{ student_data.performance.mean_grade }}</td>
-                      <td>{{ student_data.performance.total_points }}</td>
-                      <td>{{ student_data.performance.examination_session.year }}</td>
+                      <th scope="row"><a  href="#}"><img style="width: 40px ; height: 40px" src="{% static 'assets/img/profile.png'%}" alt=""></a></th>
+                      <td>{{ patient.first_name }} {{ patient.last_name }}</td>
+                      <td>{{ patient.phone }}</td>
+                      <td >{{ patient.Identification_no }}</td>
+                      <td>{{ patient.address }}</td>
+                      <td>{{ patient.email }}</td>
+                     
                     </tr>
                     {% endfor %}
                   </tbody>
@@ -386,7 +382,7 @@
           </div>
 
           <div class="card-body pb-0">
-            <h5 class="card-title">Budget Report <span>| This Month</span></h5>
+            <h5 class="card-title">Health Report <span>| This Month</span></h5>
 
             <div id="budgetChart" style="min-height: 400px;" class="echart"></div>
 
@@ -394,38 +390,38 @@
               document.addEventListener("DOMContentLoaded", () => {
                 var budgetChart = echarts.init(document.querySelector("#budgetChart")).setOption({
                   legend: {
-                    data: ['Allocated Budget', 'Actual Spending']
+                    data: ['Epidemiological trends', 'Actual metric']
                   },
                   radar: {
                     // shape: 'circle',
                     indicator: [{
-                        name: 'Sales',
+                        name: 'Malaria',
                         max: 6500
                       },
                       {
-                        name: 'Administration',
+                        name: 'Tuberculosis',
                         max: 16000
                       },
                       {
-                        name: 'Information Technology',
+                        name: 'HIV/AIDS',
                         max: 30000
                       },
                       {
-                        name: 'Customer Support',
+                        name: 'Cancer',
                         max: 38000
                       },
                       {
-                        name: 'Development',
+                        name: 'Corona',
                         max: 52000
                       },
                       {
-                        name: 'Marketing',
+                        name: 'Blood pressure',
                         max: 25000
                       }
                     ]
                   },
                   series: [{
-                    name: 'Budget vs spending',
+                    name: 'TB vs HIV/AIDS',
                     type: 'radar',
                     data: [{
                         value: [4200, 3000, 20000, 35000, 50000, 18000],
@@ -460,7 +456,7 @@
           </div>
 
           <div class="card-body pb-0">
-            <h5 class="card-title">Website Traffic <span>| Today</span></h5>
+            <h5 class="card-title">Most Common Diesease <span>| Today</span></h5>
 
             <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
 
