@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ intern }}</h1>
+<p>Phone: {{ intern.phone }}</p>
+<p>Email: {{ intern.email }}</p>
+<p>Gender: {{ intern.gender }}</p>
+<p>Assigned Doctor: {{ intern.assigned_doctor }}</p>
+<p>Assigned Area: {{ intern.assigned_area }}</p>
+<p>Start Date: {{ intern.start_date }}</p>
+<p>End Date: {{ intern.end_date }}</p>
+<p>Emergency Contact: {{ intern.emergency_contact_name }} ({{ intern.emergency_contact_phone }})</p>
+<p><img src="{{ intern.profile_picture.url }}" alt="Profile Picture" width="150"></p>
+<a href="{% url 'intern_update' intern.pk %}">Edit</a>
+<a href="{% url 'intern_list' %}">Back to List</a>
+{% endblock %}

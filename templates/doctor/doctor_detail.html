@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ doctor }}</h1>
+<p>Gender: {{ doctor.gender }}</p>
+<p>Phone: {{ doctor.phone }}</p>
+<p>Specialization: {{ doctor.specialization }}</p>
+<p>Department: {{ doctor.department }}</p>
+<p>Years of Experience: {{ doctor.years_of_experience }}</p>
+<p>Available Days: {{ doctor.available_days }}</p>
+<p><img src="{{ doctor.profile_picture.url }}" alt="Profile Picture" width="150"></p>
+<a href="{% url 'doctor_update' doctor.pk %}">Edit</a>
+<a href="{% url 'doctor_list' %}">Back to List</a>
+{% endblock %}

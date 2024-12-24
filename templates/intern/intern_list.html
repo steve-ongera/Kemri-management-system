@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Intern List</h1>
+<a href="{% url 'intern_create' %}">Add Intern</a>
+<ul>
+    {% for intern in interns %}
+    <li>
+        <a href="{% url 'intern_detail' intern.pk %}">{{ intern }}</a> - 
+        <a href="{% url 'intern_update' intern.pk %}">Edit</a> - 
+        <a href="{% url 'intern_delete' intern.pk %}">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
