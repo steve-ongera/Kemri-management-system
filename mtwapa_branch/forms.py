@@ -95,3 +95,11 @@ class NonStaffForm(forms.ModelForm):
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
         }
+
+class ReportForm(forms.ModelForm):
+    class Meta:
+        model = Report
+        fields = ['patient', 'date', 'description', 'file']
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'}),
+        }

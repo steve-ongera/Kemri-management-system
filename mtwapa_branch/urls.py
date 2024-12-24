@@ -50,5 +50,11 @@ urlpatterns = [
     path('nonstaff/add/', views.nonstaff_create, name='nonstaff_create'),
     path('nonstaff/<int:pk>/edit/', views.nonstaff_update, name='nonstaff_update'),
     path('nonstaff/<int:pk>/delete/', views.nonstaff_delete, name='nonstaff_delete'),
+
+    path('reports/', views.report_list, name='report_list'),
+    path('reports/<int:pk>/', views.report_detail, name='report_detail'),
+    path('reports/add/', views.report_create, name='report_create'),
+    path('reports/<int:pk>/edit/', views.report_update, name='report_update'),
+    path('reports/<int:pk>/delete/', views.report_delete, name='report_delete'),
 ]
 

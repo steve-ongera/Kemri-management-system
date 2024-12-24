@@ -338,3 +338,46 @@ def nonstaff_delete(request, pk):
         nonstaff_member.delete()
         return redirect('nonstaff_list')
     return render(request, 'nonstaff/nonstaff_confirm_delete.html', {'nonstaff_member': nonstaff_member})
+
+
+
+# List View
+def report_list(request):
+    reports = Report.objects.all().order_by('-date')
+    return render(request, 'report/report_list.html', {'reports': reports})
+
+# Detail View
+def report_detail(request, pk):
+    report = get_object_or_404(Report, pk=pk)
+    return render(request, 'report/report_detail.html', {'report': report})
+
+# Create View
+def report_create(request):
+    if request.method == 'POST':
+        form = ReportForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('report_list')
+    else:
+        form = ReportForm()
+    return render(request, 'report/report_form.html', {'form': form})
+
+# Update View
+def report_update(request, pk):
+    report = get_object_or_404(Report, pk=pk)
+    if request.method == 'POST':
+        form = ReportForm(request.POST, request.FILES, instance=report)
+        if form.is_valid():
+            form.save()
+            return redirect('report_list')
+    else:
+        form = ReportForm(instance=report)
+    return render(request, 'report/report_form.html', {'form': form})
+
+# Delete View
+def report_delete(request, pk):
+    report = get_object_or_404(Report, pk=pk)
+    if request.method == 'POST':
+        report.delete()
+        return redirect('report_list')
+    return render(request, 'report/report_confirm_delete.html', {'report': report})

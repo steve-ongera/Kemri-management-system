@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Patient Reports</h1>
+<a href="{% url 'report_create' %}">Add New Report</a>
+<ul>
+    {% for report in reports %}
+    <li>
+        <a href="{% url 'report_detail' report.pk %}">
+            Report for {{ report.patient.first_name }} {{ report.patient.last_name }} ({{ report.date }})
+        </a>
+        - <a href="{% url 'report_update' report.pk %}">Edit</a>
+        - <a href="{% url 'report_delete' report.pk %}">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -268,6 +268,12 @@ class Report(models.Model):
 
     def __str__(self):
         return f"Report for {self.patient.last_name} on {self.date}"
+    
+    def get_file_name(self):
+        return self.file.name.split('/')[-1]
+
+    def get_file_url(self):
+        return self.file.url
 
 
 # Lab Test Model
