@@ -381,3 +381,46 @@ def report_delete(request, pk):
         report.delete()
         return redirect('report_list')
     return render(request, 'report/report_confirm_delete.html', {'report': report})
+
+
+
+# List View
+def labtest_list(request):
+    tests = LabTest.objects.all().order_by('-test_date')
+    return render(request, 'labtest/labtest_list.html', {'tests': tests})
+
+# Detail View
+def labtest_detail(request, pk):
+    test = get_object_or_404(LabTest, pk=pk)
+    return render(request, 'labtest/labtest_detail.html', {'test': test})
+
+# Create View
+def labtest_create(request):
+    if request.method == 'POST':
+        form = LabTestForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('labtest_list')
+    else:
+        form = LabTestForm()
+    return render(request, 'labtest/labtest_form.html', {'form': form})
+
+# Update View
+def labtest_update(request, pk):
+    test = get_object_or_404(LabTest, pk=pk)
+    if request.method == 'POST':
+        form = LabTestForm(request.POST, instance=test)
+        if form.is_valid():
+            form.save()
+            return redirect('labtest_list')
+    else:
+        form = LabTestForm(instance=test)
+    return render(request, 'labtest/labtest_form.html', {'form': form})
+
+# Delete View
+def labtest_delete(request, pk):
+    test = get_object_or_404(LabTest, pk=pk)
+    if request.method == 'POST':
+        test.delete()
+        return redirect('labtest_list')
+    return render(request, 'labtest/labtest_confirm_delete.html', {'test': test})

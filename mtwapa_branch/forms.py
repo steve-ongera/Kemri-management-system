@@ -103,3 +103,11 @@ class ReportForm(forms.ModelForm):
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
         }
+
+class LabTestForm(forms.ModelForm):
+    class Meta:
+        model = LabTest
+        fields = ['patient', 'doctor', 'test_name', 'test_date', 'results']
+        widgets = {
+            'test_date': forms.DateInput(attrs={'type': 'date'}),
+        }

@@ -56,5 +56,12 @@ urlpatterns = [
     path('reports/add/', views.report_create, name='report_create'),
     path('reports/<int:pk>/edit/', views.report_update, name='report_update'),
     path('reports/<int:pk>/delete/', views.report_delete, name='report_delete'),
+
+    path('lab-tests/', views.labtest_list, name='labtest_list'),
+    path('lab-tests/<int:pk>/', views.labtest_detail, name='labtest_detail'),
+    path('lab-tests/add/', views.labtest_create, name='labtest_create'),
+    path('lab-tests/<int:pk>/edit/', views.labtest_update, name='labtest_update'),
+    path('lab-tests/<int:pk>/delete/', views.labtest_delete, name='labtest_delete'),
 ]
+
 

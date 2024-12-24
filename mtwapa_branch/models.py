@@ -286,5 +286,11 @@ class LabTest(models.Model):
 
     def __str__(self):
         return f"Lab Test: {self.test_name} for {self.patient.last_name}"
+    
+    def get_test_date_formatted(self):
+        return self.test_date.strftime('%B %d, %Y')
+
+    def get_test_summary(self):
+        return self.results[:50] + '...' if self.results else "No results available"
 
 

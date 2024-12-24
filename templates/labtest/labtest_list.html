@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Lab Tests</h1>
+<a href="{% url 'labtest_create' %}">Add New Lab Test</a>
+<ul>
+    {% for test in tests %}
+    <li>
+        <a href="{% url 'labtest_detail' test.pk %}">
+            {{ test.test_name }} for {{ test.patient.first_name }} {{ test.patient.last_name }} ({{ test.get_test_date_formatted }})
+        </a>
+        - <a href="{% url 'labtest_update' test.pk %}">Edit</a>
+        - <a href="{% url 'labtest_delete' test.pk %}">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
