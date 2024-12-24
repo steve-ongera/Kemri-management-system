@@ -4,6 +4,57 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from .models import *
 from .forms import *
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count, Sum
+from django.db.models.functions import TruncMonth, TruncDay
+from datetime import datetime, timedelta
+
+@login_required
+def dashboard(request):
+    # Date ranges
+    today = datetime.now()
+    last_30_days = today - timedelta(days=30)
+    
+    # Basic stats
+    context = {
+        'total_doctors': Doctor.objects.count(),
+        'total_patients': Patient.objects.count(),
+        'total_appointments': Appointment.objects.filter(status='scheduled').count(),
+        'total_departments': Department.objects.count(),
+    }
+    
+    # Appointments by day
+    daily_appointments = (Appointment.objects
+        .filter(date__gte=last_30_days)
+        .annotate(day=TruncDay('date'))
+        .values('day')
+        .annotate(count=Count('id'))
+        .order_by('day'))
+    
+    # Department distribution
+    dept_distribution = (Doctor.objects
+        .values('department__name')
+        .annotate(count=Count('id'))
+        .order_by('-count'))
+    
+    # Patient growth
+    patient_growth = (Patient.objects
+        .annotate(month=TruncMonth('date_of_birth'))
+        .values('month')
+        .annotate(count=Count('id'))
+        .order_by('month'))
+    
+    # Add chart data to context
+    context.update({
+        'appointment_data': list(daily_appointments),
+        'department_data': list(dept_distribution),
+        'patient_growth_data': list(patient_growth),
+        'recent_appointments': Appointment.objects.select_related('doctor', 'patient').order_by('-date')[:5],
+    })
+    
+    return render(request, 'admin/dashboard.html', context)
+
+
 # List view
 def doctor_list(request):
     doctors = Doctor.objects.all()
@@ -451,7 +502,7 @@ def user_login(request):
 
             if user is not None:
                 login(request, user)
-                return redirect('home')  # Redirect to a protected page or homepage after login
+                return redirect('dashboard')  # Redirect to a protected page or admin dashboard after login
             else:
                 form.add_error(None, 'Invalid username or password')
     else:
@@ -464,3 +515,13 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('login')  # Redirect to login page after logout
+
+
+# View to display the help and support page
+def help_and_support(request):
+    return render(request, 'help/help_and_support.html')
+
+
+# View to display the system settings page
+def system_settings(request):
+    return render(request, 'help/system_settings.html')

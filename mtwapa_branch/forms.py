@@ -8,14 +8,14 @@ class CustomUserRegistrationForm(forms.Form):
     username = forms.CharField(max_length=150, required=True)
     email = forms.EmailField(required=True)
     password = forms.CharField(widget=forms.PasswordInput(), required=True)
-    confirm_password = forms.CharField(widget=forms.PasswordInput(), required=True)
+    password2 = forms.CharField(widget=forms.PasswordInput(), required=True)
 
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
-        confirm_password = cleaned_data.get('confirm_password')
+        password2 = cleaned_data.get('password2')
 
-        if password != confirm_password:
+        if password != password2:
             raise ValidationError('Passwords do not match')
         
         return cleaned_data
@@ -38,7 +38,7 @@ class DoctorForm(forms.ModelForm):
     class Meta:
         model = Doctor
         fields = [
-            'user', 'first_name', 'last_name', 'gender', 'phone', 'emergency_contact_name',
+             'first_name', 'last_name', 'gender', 'phone', 'emergency_contact_name',
             'emergency_contact_phone', 'address', 'identification_no', 'specialization',
             'department', 'years_of_experience', 'available_days', 'profile_picture'
         ]
