@@ -157,6 +157,25 @@ def patient_delete(request, pk):
         patient.delete()
         return redirect('patient_list')
     return render(request, 'patient/patient_confirm_delete.html', {'patient': patient})
+#search for patient 
+
+def patient_search(request):
+    form = PatientSearchForm(request.GET)
+    patients = []
+
+    if form.is_valid():
+        search_query = form.cleaned_data.get('search_query')
+        if search_query:
+            # Using Q objects to create a logical OR condition
+            patients = Patient.objects.filter(
+                Q(first_name__icontains=search_query) |
+                Q(last_name__icontains=search_query) |
+                Q(phone__icontains=search_query) |
+                Q(Identification_no__icontains=search_query) |
+                Q(email__icontains=search_query)
+            )
+
+    return render(request, 'patient/patient_search.html', {'form': form, 'patients': patients})
 
 
 # List view

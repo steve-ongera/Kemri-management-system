@@ -158,3 +158,7 @@ class LabTestForm(forms.ModelForm):
         widgets = {
             'test_date': forms.DateInput(attrs={'type': 'date'}),
         }
+
+
+class PatientSearchForm(forms.Form):
+    search_query = forms.CharField(label="Search", max_length=100, required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search Patients'}))
