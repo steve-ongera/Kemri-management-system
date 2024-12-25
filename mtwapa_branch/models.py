@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.urls import reverse
+
 
 
 # Doctor Model
@@ -305,3 +308,36 @@ class LabTest(models.Model):
         return self.results[:50] + '...' if self.results else "No results available"
 
 
+#profile model 
+class Profile(models.Model):
+    ROLE_CHOICES = (
+        ('Admin', 'Admin'),
+        ('Staff', 'staff'),
+        
+    )
+    
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    username = models.CharField(max_length=150, blank=True, null=True)
+    about = models.TextField(blank=True, null=True)
+    role = models.CharField(max_length=50, choices=ROLE_CHOICES, default='Staff')
+    full_names = models.CharField(max_length=200)
+    Region = models.CharField(max_length=200, blank=True, null=True)
+    county = models.CharField(max_length=100, blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    profile_image = models.ImageField(upload_to='profile_images/', default='profile_images/default.png')
+    website = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return self.full_names    
+
+
+class Activity(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)  # User performing the action
+    action = models.CharField(max_length=255)  # The action performed
+    timestamp = models.DateTimeField(default=now)  # Time of the activity
+    ip_address = models.GenericIPAddressField(null=True, blank=True)  # Optional: Track user's IP address
+
+    def __str__(self):
+        return f"{self.user} - {self.action} at {self.timestamp}"

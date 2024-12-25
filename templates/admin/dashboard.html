@@ -253,7 +253,7 @@
                   <tbody>
                     {% for doctor in doctors %}
                     <tr>
-                      <th scope="row"><a href="#">{{ doctor.first_name }}</a></th>
+                      <th scope="row"><a href="{% url 'doctor_detail' doctor.pk %}">{{ doctor.first_name }}</a></th>
                       <td>{{ doctor.last_name}}</td>
                       <td><a href="#" class="text-primary">{{ doctor.specialization}}</a></td>
                       <td>{{ doctor.identification_no}}</td>
@@ -309,7 +309,7 @@
                     
                     {% for patient in patients%}
                     <tr>
-                      <th scope="row"><a  href="#}"><img style="width: 40px ; height: 40px" src="{% static 'assets/img/profile.png'%}" alt=""></a></th>
+                      <th scope="row"><a  href="{% url 'patient_detail'  patient.pk %}"><img style="width: 40px ; height: 40px" src="{% static 'assets/img/profile.png'%}" alt=""></a></th>
                       <td>{{ patient.first_name }} {{ patient.last_name }}</td>
                       <td>{{ patient.phone }}</td>
                       <td>{{ patient.Identification_no }}</td>

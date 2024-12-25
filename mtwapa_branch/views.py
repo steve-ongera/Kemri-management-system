@@ -17,6 +17,7 @@ def dashboard(request):
     last_30_days = today - timedelta(days=30)
     doctors = Doctor.objects.all()
     patients = Patient.objects.all()[:6]
+    recent_activities = Activity.objects.order_by('-timestamp')[:5]
     
     # Basic stats
     context = {
@@ -26,6 +27,7 @@ def dashboard(request):
         'total_departments': Department.objects.count(),
         'doctors': doctors,
         'patients':patients,
+        'recent_activities':recent_activities,
     }
     
     # Appointments by day
@@ -564,3 +566,46 @@ def help_and_support(request):
 # View to display the system settings page
 def system_settings(request):
     return render(request, 'help/system_settings.html')
+
+
+@login_required
+def profile_detail(request):
+    try:
+        # Get or create the user's profile
+        profile, created = Profile.objects.get_or_create(user=request.user)
+    except Profile.DoesNotExist:
+        profile = None
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()  # Save the form with the new image
+            return redirect('profile_detail')
+    else:
+        form = ProfileForm(instance=profile)
+
+    return render(request, 'auth/profile_detail.html', {
+        'profile': profile,
+        'form': form,
+    })
+
+
+@login_required
+def create_profile(request):
+    # Check if the logged-in user already has a profile
+    if hasattr(request.user, 'profile'):
+        return redirect('profile_detail')  # If the user already has a profile, redirect to profile detail
+
+    # Handle the form submission
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = request.user  # Associate the profile with the logged-in user
+            profile.save()
+            return redirect('profile_detail')  # Redirect to profile detail after saving
+
+    else:
+        form = ProfileForm()
+
+    return render(request, 'auth/create_profile.html', {'form': form})

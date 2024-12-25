@@ -162,3 +162,11 @@ class LabTestForm(forms.ModelForm):
 
 class PatientSearchForm(forms.Form):
     search_query = forms.CharField(label="Search", max_length=100, required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search Patients'}))
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = [
+            'profile_image', 'full_names', 'about', 'role', 'Region', 
+            'county', 'address', 'phone', 'email'
+        ]

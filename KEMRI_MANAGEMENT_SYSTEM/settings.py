@@ -39,6 +39,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+MIDDLEWARE += [
+    'mtwapa_branch.middleware.LogRequestMiddleware',
+]
+
 ROOT_URLCONF = 'KEMRI_MANAGEMENT_SYSTEM.urls'
 
 TEMPLATES = [
