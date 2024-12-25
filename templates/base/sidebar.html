@@ -5,7 +5,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="#">
+        <a class="nav-link " href="{% url 'dashboard'%}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -17,13 +17,19 @@
         </a>
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="#">
+            <a href="{% url 'doctor_list'%}"> 
               <i class="bi bi-circle"></i><span>Doctors List </span>
+            </a>
+          </li>
+
+          <li>
+            <a href="{% url 'doctor_create'%}"> 
+              <i class="bi bi-circle"></i><span>Add Doctors </span>
             </a>
           </li>
          
           <li>
-            <a href="#">
+            <a href="{% url 'search_doctors'%}">
               <i class="bi bi-circle"></i><span>Search Doctors</span>
             </a>
           </li>
@@ -38,13 +44,19 @@
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="#">
+            <a href="{% url 'patient_list'%}">
               <i class="bi bi-circle"></i><span>Patients List</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="{% url 'patient_create'%}">
               <i class="bi bi-circle"></i><span>Add Patient</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="{% url 'patient_create'%}">
+              <i class="bi bi-circle"></i><span>Search Patient</span>
             </a>
           </li>
           
@@ -58,15 +70,22 @@
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="#">
+            <a href="{% url 'intern_list'%}">
               <i class="bi bi-circle"></i><span>Intern List</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="{% url 'intern_create'%}">
               <i class="bi bi-circle"></i><span>Add Intern</span>
             </a>
           </li>
+
+          <li>
+            <a href=" #">
+              <i class="bi bi-circle"></i><span>Search Intern</span>
+            </a>
+          </li>
+
         </ul>
       </li><!-- End Tables Nav -->
 
@@ -76,13 +95,19 @@
         </a>
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="#">
+            <a href="{% url 'staff_list'%}">
               <i class="bi bi-circle"></i><span>Staff List</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="{% url 'staff_create'%}">
               <i class="bi bi-circle"></i><span>Add staff</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="#">
+              <i class="bi bi-circle"></i><span>Search Staff</span>
             </a>
           </li>
           
@@ -96,13 +121,19 @@
         </a>
         <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="#">
+            <a href="{% url 'report_list'%}">
               <i class="bi bi-circle"></i><span>Medical Reports</span>
+            </a>
+          </li>
+          
+          <li>
+            <a href="{% url 'report_create'%}">
+              <i class="bi bi-circle"></i><span>Create Reports</span>
             </a>
           </li>
 
           <li>
-            <a href="#">
+            <a href="{% url 'labtest_list'%}">
               <i class="bi bi-circle"></i><span>Lab Reports</span>
             </a>
           </li>
@@ -120,7 +151,7 @@
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="{% url 'nonstaff_list'%}">
           <i class="bi bi-question-circle"></i>
           <span>Non Staff</span>
         </a>

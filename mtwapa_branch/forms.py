@@ -38,10 +38,25 @@ class DoctorForm(forms.ModelForm):
     class Meta:
         model = Doctor
         fields = [
-             'first_name', 'last_name', 'gender', 'phone', 'emergency_contact_name',
+            'first_name', 'last_name', 'gender', 'phone', 'emergency_contact_name',
             'emergency_contact_phone', 'address', 'identification_no', 'specialization',
             'department', 'years_of_experience', 'available_days', 'profile_picture'
         ]
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
+            'gender': forms.Select(attrs={'class': 'form-select', 'placeholder': 'Select Gender'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone'}),
+            'emergency_contact_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Emergency Contact Name'}),
+            'emergency_contact_phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Emergency Contact Phone'}),
+            'address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Address'}),
+            'identification_no': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Identification No'}),
+            'specialization': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Specialization'}),
+            'department': forms.Select(attrs={'class': 'form-select', 'placeholder': 'Department'}),
+            'years_of_experience': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Years of Experience'}),
+            'available_days': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Available Days'}),
+            'profile_picture': forms.FileInput(attrs={'class': 'form-control'}),
+        }
 
 
 class PatientForm(forms.ModelForm):

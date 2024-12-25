@@ -299,7 +299,7 @@
                       <th scope="col">Profile</th>
                         <th scope="col"> name</th>
                         <th scope="col">phone</th>
-                        <th scope="col"> ID Number </th>
+                        <th scope="col"> ID No</th>
                         <th scope="col">address</th>
                         <th scope="col"> DOB</th>
                 
@@ -312,9 +312,9 @@
                       <th scope="row"><a  href="#}"><img style="width: 40px ; height: 40px" src="{% static 'assets/img/profile.png'%}" alt=""></a></th>
                       <td>{{ patient.first_name }} {{ patient.last_name }}</td>
                       <td>{{ patient.phone }}</td>
-                      <td >{{ patient.Identification_no }}</td>
+                      <td>{{ patient.Identification_no }}</td>
                       <td>{{ patient.address }}</td>
-                      <td>{{ patient.email }}</td>
+                      <td>{{ patient.date_of_birth }}</td>
                      
                     </tr>
                     {% endfor %}
@@ -578,179 +578,4 @@
   </section>
 
 </div>
-  {% endblock %}
-{% comment %}
-
-    
-
-
-
-{% comment %}
-{% extends "base.html" %}
-{% load static %}
-
-{% block extrastyle %}
-<link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 {% endblock %}
-
-{% block content %}
-<div class="p-6 bg-gray-100 min-h-screen">
-    <!-- Header with Quick Actions -->
-    <div class="flex justify-between items-center mb-8">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-800">Hospital Dashboard</h1>
-            <p class="text-gray-600">Welcome, {{ request.user.username }}</p>
-        </div>
-        <div class="flex gap-4">
-            <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-                <i class="fas fa-plus mr-2"></i>New Appointment
-            </button>
-            <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
-                <i class="fas fa-user-plus mr-2"></i>Add Patient
-            </button>
-        </div>
-    </div>
-
-    <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white rounded-lg shadow p-6 transform hover:scale-105 transition-transform">
-            <div class="flex items-center">
-                <div class="p-3 rounded-full bg-blue-100 text-blue-500">
-                    <i class="fas fa-user-md text-2xl"></i>
-                </div>
-                <div class="ml-4">
-                    <h3 class="text-gray-500 text-sm">Doctors</h3>
-                    <p class="text-2xl font-bold">{{ total_doctors }}</p>
-                </div>
-            </div>
-        </div>
-        <!-- Similar stat cards for patients, appointments, departments -->
-    </div>
-
-    <!-- Charts Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <!-- Appointments Trend -->
-        <div class="bg-white rounded-lg shadow p-6">
-            <h2 class="text-xl font-bold mb-4">Appointments Trend</h2>
-            <canvas id="appointmentsChart"></canvas>
-        </div>
-
-        <!-- Department Distribution -->
-        <div class="bg-white rounded-lg shadow p-6">
-            <h2 class="text-xl font-bold mb-4">Staff by Department</h2>
-            <canvas id="departmentChart"></canvas>
-        </div>
-    </div>
-
-    <!-- Patient Growth & Recent Activity -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="bg-white rounded-lg shadow p-6">
-            <h2 class="text-xl font-bold mb-4">Patient Growth</h2>
-            <canvas id="patientGrowthChart"></canvas>
-        </div>
-
-        <div class="bg-white rounded-lg shadow p-6">
-            <h2 class="text-xl font-bold mb-4">Recent Appointments</h2>
-            <div class="space-y-4">
-                {% for appointment in recent_appointments %}
-                <div class="flex items-center p-4 bg-gray-50 rounded-lg">
-                    <div class="flex-shrink-0">
-                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                            <i class="fas fa-user-circle text-blue-500 text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="ml-4">
-                        <p class="font-medium">{{ appointment.patient.first_name }} {{ appointment.patient.last_name }}</p>
-                        <p class="text-sm text-gray-500">with Dr. {{ appointment.doctor.last_name }}</p>
-                        <p class="text-xs text-gray-400">{{ appointment.date|date:"F d, Y H:i" }}</p>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-// Appointments Trend Chart
-const appointmentsCtx = document.getElementById('appointmentsChart').getContext('2d');
-new Chart(appointmentsCtx, {
-    type: 'line',
-    data: {
-        labels: {{ appointment_data|safe }}.map(item => new Date(item.day).toLocaleDateString()),
-        datasets: [{
-            label: 'Daily Appointments',
-            data: {{ appointment_data|safe }}.map(item => item.count),
-            borderColor: 'rgb(59, 130, 246)',
-            tension: 0.4
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'bottom'
-            }
-        }
-    }
-});
-
-// Department Distribution Chart
-const deptCtx = document.getElementById('departmentChart').getContext('2d');
-new Chart(deptCtx, {
-    type: 'doughnut',
-    data: {
-        labels: {{ department_data|safe }}.map(item => item.department__name),
-        datasets: [{
-            data: {{ department_data|safe }}.map(item => item.count),
-            backgroundColor: [
-                '#3B82F6', '#10B981', '#F59E0B', '#EF4444',
-                '#8B5CF6', '#EC4899', '#6366F1'
-            ]
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'bottom'
-            }
-        }
-    }
-});
-
-// Patient Growth Chart
-const growthCtx = document.getElementById('patientGrowthChart').getContext('2d');
-new Chart(growthCtx, {
-    type: 'bar',
-    data: {
-        labels: {{ patient_growth_data|safe }}.map(item => 
-            new Date(item.month).toLocaleDateString('default', { month: 'short', year: 'numeric' })
-        ),
-        datasets: [{
-            label: 'New Patients',
-            data: {{ patient_growth_data|safe }}.map(item => item.count),
-            backgroundColor: 'rgba(59, 130, 246, 0.5)',
-            borderColor: 'rgb(59, 130, 246)',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'bottom'
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
-</script>
-{% endblock %}
-{% endcomment %}

@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncMonth, TruncDay
 from datetime import datetime, timedelta
+from django.db.models import Q
 
 @login_required
 def dashboard(request):
@@ -15,7 +16,7 @@ def dashboard(request):
     today = datetime.now()
     last_30_days = today - timedelta(days=30)
     doctors = Doctor.objects.all()
-    patients = Doctor.objects.all()[:6]
+    patients = Patient.objects.all()[:6]
     
     # Basic stats
     context = {
@@ -90,7 +91,7 @@ def doctor_update(request, pk):
             return redirect('doctor_list')
     else:
         form = DoctorForm(instance=doctor)
-    return render(request, 'doctor/doctor_form.html', {'form': form})
+    return render(request, 'doctor/update_doctor.html', {'form': form})
 
 # Delete view
 def doctor_delete(request, pk):
@@ -99,6 +100,21 @@ def doctor_delete(request, pk):
         doctor.delete()
         return redirect('doctor_list')
     return render(request, 'doctor/doctor_confirm_delete.html', {'doctor': doctor})
+
+#search  doctor 
+def search_doctors(request):
+   query = request.GET.get('q')
+   doctors = Doctor.objects.all()
+   
+   if query:
+       doctors = doctors.filter(
+           Q(first_name__icontains=query) |
+           Q(last_name__icontains=query) |
+           Q(specialization__icontains=query) |
+           Q(department__name__icontains=query)
+       )
+   
+   return render(request, 'doctor/search.html', {'doctors': doctors})
 
 
 # List view
