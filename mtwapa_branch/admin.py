@@ -13,6 +13,7 @@ admin.site.register(Report)
 admin.site.register(LabTest)
 admin.site.register(Profile)
 admin.site.register(Activity)
+admin.site.register(Message)
 admin.site.register(NewsUpdate)
 @admin.register(DiseaseTest)
 class DiseaseTestAdmin(admin.ModelAdmin):

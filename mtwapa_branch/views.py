@@ -15,6 +15,12 @@ from datetime import datetime
 from django.http import JsonResponse
 from django.core.serializers.json import DjangoJSONEncoder
 import json
+from django.utils import timezone
+import datetime
+from datetime import datetime
+from django.utils import timezone
+from datetime import timedelta
+from datetime import datetime
 
 
 @login_required
@@ -692,3 +698,107 @@ def news_delete(request, pk):
         return redirect('dashbaord')  # Redirect to a suitable page after deletion
 
     return render(request, 'news/news_confirm_delete.html', {'news': news})
+
+
+
+#messaging
+
+@login_required
+def send_message(request, username):
+    receiver = get_object_or_404(User, username=username)
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        if content:  # Ensure the content is not empty
+            Message.objects.create(sender=request.user, receiver=receiver, content=content)
+        return redirect('message_thread', username=username)
+
+    return render(request, 'message/send_message.html', {'receiver': receiver})
+
+@login_required
+def message_thread(request, username):
+    receiver = get_object_or_404(User, username=username)
+    messages = Message.objects.filter(sender=request.user, receiver=receiver) | \
+               Message.objects.filter(sender=receiver, receiver=request.user)
+    messages = messages.order_by('timestamp')
+
+    return render(request, 'message/message_thread.html', {'receiver': receiver, 'messages': messages})
+
+
+@login_required
+def send_message(request, username):
+    receiver = get_object_or_404(User, username=username)
+
+    # Update the last seen time in the session
+    request.session['last_seen'] = timezone.now().isoformat()  # Store as ISO format string
+    
+    if request.method == 'POST':
+        form = MessageForm(request.POST, request.FILES)  # Handle file uploads
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = request.user
+            message.receiver = receiver
+            message.save()
+            return redirect('message_thread', username=username)
+    else:
+        form = MessageForm()
+
+    # Retrieve messages between the sender and receiver
+    messages = Message.objects.filter(
+        sender=request.user, receiver=receiver
+    ) | Message.objects.filter(
+        sender=receiver, receiver=request.user
+    )
+    messages = messages.order_by('timestamp')
+
+   
+    # Last seen
+    last_seen_str = request.session.get('last_seen')  # Retrieve the string
+    last_seen = datetime.fromisoformat(last_seen_str) if last_seen_str else None
+
+    
+    return render(request, 'message/message_thread.html', {
+        'receiver': receiver,
+        'messages': messages,
+        'last_seen': last_seen,  # Pass the datetime object
+        'form': form,  # Pass the form to the template
+    })
+
+
+@login_required
+def message_list(request):
+    sent_messages = Message.objects.filter(sender=request.user).values_list('receiver', flat=True)
+    received_messages = Message.objects.filter(receiver=request.user).values_list('sender', flat=True)
+    
+    # Combine both sender and receiver lists and eliminate duplicates
+    user_ids = set(list(sent_messages) + list(received_messages))
+    users = User.objects.filter(id__in=user_ids)
+    
+    return render(request, 'message/message_list.html', {
+        'users': users
+    })
+
+
+@login_required
+def create_chat(request, username):
+    receiver = get_object_or_404(User, username=username)
+
+    # Check if a message already exists between the logged-in user and the receiver
+    existing_message = Message.objects.filter(
+        (Q(sender=request.user) & Q(receiver=receiver)) | 
+        (Q(sender=receiver) & Q(receiver=request.user))
+    ).first()
+
+    
+    return redirect('message_thread', username=username)
+
+
+
+def nav_bar_messages(request):
+    # Fetch the latest 3 messages involving the logged-in user
+    messages = Message.objects.filter(
+        Q(sender=request.user) | Q(receiver=request.user)
+    ).order_by('-timestamp')[:3]  # Limit to 3 messages
+
+    return render(request, 'base/navbar.html', {
+        'messages': messages,  # Pass the messages to the context
+    })

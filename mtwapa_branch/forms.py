@@ -321,3 +321,13 @@ class NewsUpdateForm(forms.ModelForm):
     class Meta:
         model = NewsUpdate
         fields = ['title', 'description', 'category', 'image']  # Include relevant fields
+
+
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ['content', 'photo', 'pdf']  # Include only content, photo, and pdf
+        widgets = {
+            'content': forms.Textarea(attrs={'placeholder': 'Type your message'}),
+        }
+

@@ -75,6 +75,12 @@ urlpatterns = [
     path('create-profile/', views.create_profile, name='create_profile'),
     path('edit-profile/', views.edit_profile, name='edit_profile'),
 
+    
+    path('messages/<str:username>/', views.send_message, name='message_thread'),
+    path('messages/', views.message_list, name='message_list'),
+    path('messages/create/<str:username>/', views.create_chat, name='create_chat'),
+
+
 
     path('help-and-support/', views.help_and_support, name='help_and_support'),
     path('system-settings/', views.system_settings, name='system_settings'),

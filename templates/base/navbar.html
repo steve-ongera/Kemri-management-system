@@ -37,65 +37,47 @@
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
             <li class="dropdown-header">
               You have 4 new notifications
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+              <a href="{% url 'message_list'%}"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
+            {% for news in news_updates|slice:":3" %}
 
             <li class="notification-item">
-              <i class="bi bi-exclamation-circle text-warning"></i>
-              <div>
-                <h4>Lorem Ipsum</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>30 min. ago</p>
-              </div>
+                {% if news.created_by == request.user %}
+                    <!-- If the news belongs to the logged-in user, do not include the message link -->
+                    
+                {% else %}
+                    <!-- Include the message link if the news does not belong to the logged-in user -->
+                    <a href="{% url 'create_chat' news.created_by.username %}" class="text-primary">
+                        <i class="bi bi-envelope"></i>
+                    </a>
+                    
+                {% endif %}
+
+                <div>
+                    <h4>{{ news.created_by.username }} ~ {{ news.title }}</h4>
+                    <p>{{ news.description|truncatechars:100 }}</p>
+                    <p>{{ news.published_date }}</p>
+                </div>
             </li>
 
             <li>
-              <hr class="dropdown-divider">
+                <hr class="dropdown-divider">
             </li>
 
-            <li class="notification-item">
-              <i class="bi bi-x-circle text-danger"></i>
-              <div>
-                <h4>Atque rerum nesciunt</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>1 hr. ago</p>
-              </div>
+            {% endfor %}
+
+              
             </li>
 
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-check-circle text-success"></i>
-              <div>
-                <h4>Sit rerum fuga</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>2 hrs. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-info-circle text-primary"></i>
-              <div>
-                <h4>Dicta reprehenderit</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>4 hrs. ago</p>
-              </div>
-            </li>
 
             <li>
               <hr class="dropdown-divider">
             </li>
             <li class="dropdown-footer">
-              <a href="#">Show all notifications</a>
+              <a href="{% url 'message_list'%}">Show all notifications</a>
             </li>
 
           </ul><!-- End Notification Dropdown Items -->
@@ -111,60 +93,47 @@
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
             <li class="dropdown-header">
-              You have 3 new messages
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                You have {{ messages|length }} new messages
+                <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
             </li>
             <li>
-              <hr class="dropdown-divider">
+                <hr class="dropdown-divider">
             </li>
-
-            <li class="message-item">
-              <a href="#">
-                <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
-                <div>
-                  <h4>Maria Hudson</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>4 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="message-item">
-              <a href="#">
-                <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
-                <div>
-                  <h4>Anna Nelson</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>6 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="message-item">
-              <a href="#">
-                <img src="assets/img/messages-3.jpg" alt="" class="rounded-circle">
-                <div>
-                  <h4>David Muldon</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>8 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
+        
+            {% for message in messages %}
+                <li class="message-item">
+                    <a href="{% url 'create_chat' message.sender.username %}">
+                        {% if message.sender != request.user %}
+                            <img src="{{ message.sender.profile.profile_pic.url }}" alt="{{ message.sender.username }}" class="rounded-circle">
+                        {% else %}
+                            <img src="{{ message.receiver.profile.profile_pic.url }}" alt="{{ message.receiver.username }}" class="rounded-circle">
+                        {% endif %}
+                        
+                        <div>
+                            <h4>
+                                {% if message.sender != request.user %}
+                                    {{ message.sender.username }}
+                                {% else %}
+                                    {{ message.receiver.username }}
+                                {% endif %}
+                            </h4>
+                            <p>{{ message.content|truncatechars:50 }}</p>
+                            <p>{{ message.timestamp|timesince }} ago</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+            {% empty %}
+                <li class="text-center text-muted">No messages found</li>
+            {% endfor %}
+        
             <li class="dropdown-footer">
-              <a href="#">Show all messages</a>
+                <a href="{% url 'message_list' %}">Show all messages</a>
             </li>
-
-          </ul><!-- End Messages Dropdown Items -->
+        </ul>
+        
 
         </li><!-- End Messages Nav -->
 
