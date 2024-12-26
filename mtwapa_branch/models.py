@@ -341,3 +341,21 @@ class Activity(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.action} at {self.timestamp}"
+    
+
+
+class NewsUpdate(models.Model):
+    CATEGORY_CHOICES = [
+        ('KEMRI', 'KEMRI'),
+        ('Health Staff', 'Health Staff'),
+    ]
+
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    image = models.ImageField(upload_to='news_updates/', blank=True, null=True)
+    published_date = models.DateTimeField(default=now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,  blank=True, null=True)  # Link to User
+
+    def __str__(self):
+        return self.title

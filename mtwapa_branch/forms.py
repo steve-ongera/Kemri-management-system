@@ -170,3 +170,10 @@ class ProfileForm(forms.ModelForm):
             'profile_image', 'full_names', 'about', 'role', 'Region', 
             'county', 'address', 'phone', 'email'
         ]
+
+
+
+class NewsUpdateForm(forms.ModelForm):
+    class Meta:
+        model = NewsUpdate
+        fields = ['title', 'description', 'category', 'image']  # Include relevant fields

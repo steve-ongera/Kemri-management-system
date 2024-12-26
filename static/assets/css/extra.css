@@ -32,3 +32,17 @@
   .alert .close:hover {
     color: #5c1e1e;
   }
+
+  /* Ensure the icons appear on top of the image and have a smooth hover effect */
+.image-container {
+  position: relative;
+}
+
+.icon-edit, .icon-delete {
+  transition: transform 0.3s ease;
+}
+
+.icon-edit:hover, .icon-delete:hover {
+  transform: scale(1.2); /* Slightly increase size on hover */
+  color: #f8f9fa; /* Optionally change the color on hover */
+}

@@ -77,6 +77,9 @@ urlpatterns = [
 
     path('help-and-support/', views.help_and_support, name='help_and_support'),
     path('system-settings/', views.system_settings, name='system_settings'),
+
+    path('news/<int:pk>/edit/', views.news_edit, name='news_edit'),
+    path('news/<int:pk>/delete/', views.news_delete, name='news_delete'),
 ]
 
 

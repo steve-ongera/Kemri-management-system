@@ -9,6 +9,7 @@ from django.db.models import Count, Sum
 from django.db.models.functions import TruncMonth, TruncDay
 from datetime import datetime, timedelta
 from django.db.models import Q
+from django.http import HttpResponseForbidden
 
 @login_required
 def dashboard(request):
@@ -18,6 +19,7 @@ def dashboard(request):
     doctors = Doctor.objects.all()
     patients = Patient.objects.all()[:6]
     recent_activities = Activity.objects.order_by('-timestamp')[:5]
+    news_updates = NewsUpdate.objects.all().order_by('-published_date')[:5]
     
     # Basic stats
     context = {
@@ -28,6 +30,7 @@ def dashboard(request):
         'doctors': doctors,
         'patients':patients,
         'recent_activities':recent_activities,
+        'news_updates': news_updates,
     }
     
     # Appointments by day
@@ -609,3 +612,37 @@ def create_profile(request):
         form = ProfileForm()
 
     return render(request, 'auth/create_profile.html', {'form': form})
+
+
+@login_required
+def news_edit(request, pk):
+    news = get_object_or_404(NewsUpdate, pk=pk)
+
+    # Ensure only the creator can edit
+    if news.created_by != request.user:
+        return redirect('dashboard')  # Redirect to a suitable page, e.g., the home page
+
+    if request.method == 'POST':
+        form = NewsUpdateForm(request.POST, request.FILES, instance=news)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')  # Redirect to a suitable page after editing
+    else:
+        form = NewsUpdateForm(instance=news)
+
+    return render(request, 'news/news_edit.html', {'form': form})
+
+
+@login_required
+def news_delete(request, pk):
+    news = get_object_or_404(NewsUpdate, pk=pk)
+
+    # Ensure only the creator can delete
+    if news.created_by != request.user:
+        return HttpResponseForbidden("You are not allowed to delete this news item.")
+
+    if request.method == 'POST':  # Confirm deletion via POST request
+        news.delete()
+        return redirect('dashbaord')  # Redirect to a suitable page after deletion
+
+    return render(request, 'news/news_confirm_delete.html', {'news': news})
