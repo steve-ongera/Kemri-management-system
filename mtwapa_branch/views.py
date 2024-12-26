@@ -10,12 +10,34 @@ from django.db.models.functions import TruncMonth, TruncDay
 from datetime import datetime, timedelta
 from django.db.models import Q
 from django.http import HttpResponseForbidden
+from django.db.models import Count
+from datetime import datetime
+
 
 @login_required
 def dashboard(request):
+    # Get the current year
+    current_year = datetime.now().year
+
+    # Query for male and female patients grouped by the month they were added
+    gender_counts = Patient.objects.filter(date_added__year=current_year).values('gender', 'date_added__month').annotate(count=Count('id')).order_by('date_added__month')
+
+    # Prepare data for the chart
+    months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    male_data = [0] * 12
+    female_data = [0] * 12
+
+    # Fill the male and female data arrays based on the query results
+    for record in gender_counts:
+        month = record['date_added__month'] - 1  # Adjusting to 0-based index for months
+        if record['gender'] == 'Male':
+            male_data[month] = record['count']
+        elif record['gender'] == 'Female':
+            female_data[month] = record['count']
+
+
     # Date ranges
-    today = datetime.now()
-    last_30_days = today - timedelta(days=30)
+    
     doctors = Doctor.objects.all()
     patients = Patient.objects.all()[:6]
     recent_activities = Activity.objects.order_by('-timestamp')[:5]
@@ -25,21 +47,20 @@ def dashboard(request):
     context = {
         'total_doctors': Doctor.objects.count(),
         'total_patients': Patient.objects.count(),
+        'total_staff': Staff.objects.count(),
         'total_appointments': Appointment.objects.filter(status='scheduled').count(),
         'total_departments': Department.objects.count(),
         'doctors': doctors,
         'patients':patients,
         'recent_activities':recent_activities,
         'news_updates': news_updates,
+        #graph
+        'months': months,
+        'male_data': male_data,
+        'female_data': female_data,
     }
     
-    # Appointments by day
-    daily_appointments = (Appointment.objects
-        .filter(date__gte=last_30_days)
-        .annotate(day=TruncDay('date'))
-        .values('day')
-        .annotate(count=Count('id'))
-        .order_by('day'))
+    
     
     # Department distribution
     dept_distribution = (Doctor.objects
@@ -56,7 +77,7 @@ def dashboard(request):
     
     # Add chart data to context
     context.update({
-        'appointment_data': list(daily_appointments),
+        
         'department_data': list(dept_distribution),
         'patient_growth_data': list(patient_growth),
         'recent_appointments': Appointment.objects.select_related('doctor', 'patient').order_by('-date')[:5],

@@ -61,6 +61,7 @@ class Patient(models.Model):
     medical_history = models.TextField(blank=True, null=True)
     insurance_provider = models.CharField(max_length=100, blank=True, null=True)
     profile_picture = models.ImageField(upload_to='patient_profiles/', blank=True, null=True)
+    date_added = models.DateTimeField( blank=True, null=True )  # Automatically sets the date when a patient is added
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

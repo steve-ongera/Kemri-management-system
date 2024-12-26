@@ -80,7 +80,7 @@
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-house-check"></i>
+                    <i class="bi bi-hospital"></i>
                   </div>
                   <div class="ps-3">
                     <h6>{{ total_doctors }}</h6>
@@ -115,7 +115,7 @@
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-people"></i>
+                    <i class="bi bi-person"></i>
                   </div>
                   <div class="ps-3">
                     <h6>{{ total_patients}} </h6>
@@ -147,14 +147,14 @@
               </div>
 
               <div class="card-body">
-                <h5 class="card-title">Appointments <span>| 2024</span></h5>
+                <h5 class="card-title">Staffs <span>| 2024</span></h5>
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-pin-map"></i>
+                    <i class="bi bi-people"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>{{ total_appointments }}</h6>
+                    <h6>{{ total_staff }}</h6>
                     <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
 
                   </div>
@@ -183,23 +183,25 @@
               </div>
 
               <div class="card-body">
-                <h5 class="card-title">Reports <span>/2024</span></h5>
-
+                <h5 class="card-title">Monthly Gender Distribution <span id="currentYear"></span></h5>
+            
                 <!-- Line Chart -->
                 <div id="reportsChart"></div>
-
+            
                 <script>
                   document.addEventListener("DOMContentLoaded", () => {
+
+                    const currentYear = new Date().getFullYear();
+                    document.getElementById("currentYear").textContent = `/${currentYear}`;
+
+
                     new ApexCharts(document.querySelector("#reportsChart"), {
                       series: [{
-                        name: 'Sales',
-                        data: [31, 40, 28, 51, 42, 82, 56],
+                        name: 'Male',
+                        data: {{ male_data|safe }},
                       }, {
-                        name: 'Revenue',
-                        data: [11, 32, 45, 32, 34, 52, 41]
-                      }, {
-                        name: 'Customers',
-                        data: [15, 11, 32, 18, 9, 24, 11]
+                        name: 'Female',
+                        data: {{ female_data|safe }}
                       }],
                       chart: {
                         height: 350,
@@ -211,7 +213,7 @@
                       markers: {
                         size: 4
                       },
-                      colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                      colors: ['#4154f1', '#f41f1f'],  // Male in blue, Female in red
                       fill: {
                         type: "gradient",
                         gradient: {
@@ -229,20 +231,22 @@
                         width: 2
                       },
                       xaxis: {
-                        type: 'datetime',
-                        categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                        categories: {{ months|safe }}
                       },
                       tooltip: {
                         x: {
-                          format: 'dd/MM/yy HH:mm'
+                          format: 'dd/MM/yy'
                         },
                       }
                     }).render();
                   });
                 </script>
                 <!-- End Line Chart -->
+            
+            </div>
+            
 
-              </div>
+
 
             </div>
           </div><!-- End Reports -->
@@ -394,81 +398,9 @@
           </div>
         </div><!-- End Recent Activity -->
 
-        <!-- Budget Report -->
-        <div class="card">
-          <div class="filter">
-            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-              <li class="dropdown-header text-start">
-                <h6>Filter</h6>
-              </li>
+        
 
-              <li><a class="dropdown-item" href="#">Today</a></li>
-              <li><a class="dropdown-item" href="#">This Month</a></li>
-              <li><a class="dropdown-item" href="#">This Year</a></li>
-            </ul>
-          </div>
-
-          <div class="card-body pb-0">
-            <h5 class="card-title">Health Report <span>| This Month</span></h5>
-
-            <div id="budgetChart" style="min-height: 400px;" class="echart"></div>
-
-            <script>
-              document.addEventListener("DOMContentLoaded", () => {
-                var budgetChart = echarts.init(document.querySelector("#budgetChart")).setOption({
-                  legend: {
-                    data: ['Epidemiological trends', 'Actual metric']
-                  },
-                  radar: {
-                    // shape: 'circle',
-                    indicator: [{
-                        name: 'Malaria',
-                        max: 6500
-                      },
-                      {
-                        name: 'Tuberculosis',
-                        max: 16000
-                      },
-                      {
-                        name: 'HIV/AIDS',
-                        max: 30000
-                      },
-                      {
-                        name: 'Cancer',
-                        max: 38000
-                      },
-                      {
-                        name: 'Corona',
-                        max: 52000
-                      },
-                      {
-                        name: 'Blood pressure',
-                        max: 25000
-                      }
-                    ]
-                  },
-                  series: [{
-                    name: 'TB vs HIV/AIDS',
-                    type: 'radar',
-                    data: [{
-                        value: [4200, 3000, 20000, 35000, 50000, 18000],
-                        name: 'Allocated Budget'
-                      },
-                      {
-                        value: [5000, 14000, 28000, 26000, 42000, 21000],
-                        name: 'Actual Spending'
-                      }
-                    ]
-                  }]
-                });
-              });
-            </script>
-
-          </div>
-        </div><!-- End Budget Report -->
-
-        <!-- Website Traffic -->
+        <!-- msot common diseases -->
         <div class="card">
           <div class="filter">
             <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -544,9 +476,9 @@
             </script>
 
           </div>
-        </div><!-- End Website Traffic -->
+        </div><!-- End most common diseases -->
 
-        <!-- News & Updates Traffic -->
+        <!-- News & Updates  -->
         <div class="card">
           <div class="filter">
             <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
