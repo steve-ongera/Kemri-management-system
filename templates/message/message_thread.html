@@ -334,12 +334,31 @@
                             <img src="{{ message.photo.url }}" alt="Photo" style="max-width: 100%; border-radius: 10px; margin-top: 5px;">
                         </p>
                     {% endif %}
-                    {% if message.pdf %}
-                        <p>
-                            <i class="fas fa-file-pdf" title="PDF"></i> 
-                            <a href="{{ message.pdf.url }}" target="_blank">Download PDF</a>
-                        </p>
-                    {% endif %}
+                     {% if message.pdf %}
+                            <div class="pdf-container" style="width: 200px; height: 280px; margin: 10px 0; border-radius: 10px; overflow: hidden; border: 1px solid #ddd;">
+                                <canvas id="pdf-canvas-{{ message.id }}" style="width: 100%; height: 100%;"></canvas>
+                            </div>
+                            <p>
+                                <i class="fas fa-file-pdf" title="PDF"></i>
+                                <a href="{{ message.pdf.url }}" target="_blank">Download PDF</a>
+                            </p>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+                            <script>
+                                pdfjsLib.getDocument("{{ message.pdf.url }}").promise.then(function(pdf) {
+                                    pdf.getPage(1).then(function(page) {
+                                        var canvas = document.getElementById('pdf-canvas-{{ message.id }}');
+                                        var context = canvas.getContext('2d');
+                                        var viewport = page.getViewport({scale: 0.5});
+                                        canvas.height = viewport.height;
+                                        canvas.width = viewport.width;
+                                        page.render({
+                                            canvasContext: context,
+                                            viewport: viewport
+                                        });
+                                    });
+                                });
+                            </script>
+                            {% endif %}
                     <small>{{ message.timestamp|date:"g:i A" }}</small>
                 </div>
             {% endfor %}
