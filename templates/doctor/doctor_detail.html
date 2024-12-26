@@ -48,6 +48,18 @@
                    </div>
                </div>
 
+               {% if doctor.username %}
+                    {% if doctor.username in user_usernames %}
+                        <div class="mt-3">
+                            <a href="{% url 'create_chat' doctor.username %}" class="btn btn-outline-primary">
+                                <i class="bi bi-envelope"></i> Message {{ doctor.username }}
+                            </a>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <p>Cannot message this doctor as no username is set.</p>
+                {% endif %}
+
                <div class="mt-4">
                    <a href="{% url 'doctor_update' doctor.pk %}" class="btn btn-primary me-2">
                        <i class="bi bi-pencil"></i> Edit

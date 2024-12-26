@@ -21,6 +21,7 @@ from datetime import datetime
 from django.utils import timezone
 from datetime import timedelta
 from datetime import datetime
+from django.contrib.auth import get_user_model
 
 
 @login_required
@@ -104,9 +105,19 @@ def doctor_list(request):
     return render(request, 'doctor/doctor_list.html', {'doctors': doctors})
 
 # Detail view
+# def doctor_detail(request, pk):
+#     doctor = get_object_or_404(Doctor, pk=pk)
+#     return render(request, 'doctor/doctor_detail.html', {'doctor': doctor})
+
 def doctor_detail(request, pk):
-    doctor = get_object_or_404(Doctor, pk=pk)
-    return render(request, 'doctor/doctor_detail.html', {'doctor': doctor})
+    doctor = Doctor.objects.get(pk=pk)
+    User = get_user_model()
+    user_usernames = User.objects.values_list('username', flat=True)
+    
+    return render(request, 'doctor/doctor_detail.html', {
+        'doctor': doctor,
+        'user_usernames': user_usernames
+    })
 
 # Create view
 def doctor_create(request):
