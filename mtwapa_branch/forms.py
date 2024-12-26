@@ -68,6 +68,25 @@ class PatientForm(forms.ModelForm):
             'blood_type', 'allergies', 'chronic_conditions', 'medical_history',
             'insurance_provider', 'profile_picture'
         ]
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone'}),
+            'gender': forms.Select(attrs={'class': 'form-select', 'placeholder': 'Select Gender'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+            'Identification_no': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Identification Number'}),
+            'date_of_birth': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Date of Birth', 'type': 'date'}),
+            'address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Address'}),
+            'emergency_contact_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Emergency Contact Name'}),
+            'emergency_contact_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Emergency Contact Number'}),
+            'blood_type': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Blood Type'}),
+            'allergies': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Allergies', 'rows': 3}),
+            'chronic_conditions': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Chronic Conditions', 'rows': 3}),
+            'medical_history': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Medical History', 'rows': 3}),
+            'insurance_provider': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Insurance Provider'}),
+            'profile_picture': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+
 
 
 class InternForm(forms.ModelForm):
@@ -78,6 +97,22 @@ class InternForm(forms.ModelForm):
             'emergency_contact_phone', 'gender', 'Identification_no', 'assigned_doctor',
             'assigned_area', 'start_date', 'end_date', 'profile_picture'
         ]
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+            'emergency_contact_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Emergency Contact Name'}),
+            'emergency_contact_phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Emergency Contact Phone'}),
+            'gender': forms.Select(attrs={'class': 'form-select', 'placeholder': 'Select Gender'}),
+            'Identification_no': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Identification Number'}),
+            'assigned_doctor': forms.Select(attrs={'class': 'form-select', 'placeholder': 'Assigned Doctor'}),
+            'assigned_area': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Assigned Area'}),
+            'start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'placeholder': 'Start Date'}),
+            'end_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'placeholder': 'End Date'}),
+            'profile_picture': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+
 
 
 
@@ -113,6 +148,9 @@ class MedicalRecordForm(forms.ModelForm):
         }
 
 
+from django import forms
+from .models import Staff
+
 class StaffForm(forms.ModelForm):
     class Meta:
         model = Staff
@@ -125,8 +163,31 @@ class StaffForm(forms.ModelForm):
             'qualifications', 'experience_years', 'skills'
         ]
         widgets = {
-            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
-            'date_hired': forms.DateInput(attrs={'type': 'date'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+            'identification_no': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Identification No'}),
+            'date_of_birth': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'gender': forms.Select(attrs={'class': 'form-select', 'placeholder': 'Select Gender'}),
+            'profile_picture': forms.FileInput(attrs={'class': 'form-control'}),
+            'position': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Position'}),
+            'department': forms.Select(attrs={'class': 'form-select'}),
+            'employee_id': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Employee ID'}),
+            'date_hired': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'contract_type': forms.Select(attrs={'class': 'form-select'}),
+            'salary': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Salary'}),
+            'shift': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Shift'}),
+            'address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Address'}),
+            'city': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'City'}),
+            'region': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Region'}),
+            'emergency_contact_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Emergency Contact Name'}),
+            'emergency_contact_phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Emergency Contact Phone'}),
+            'access_level': forms.Select(attrs={'class': 'form-select'}),
+            'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'qualifications': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Qualifications', 'rows': 3}),
+            'experience_years': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Years of Experience'}),
+            'skills': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Skills', 'rows': 3}),
         }
 
 
@@ -140,7 +201,22 @@ class NonStaffForm(forms.ModelForm):
             'emergency_contact_name', 'emergency_contact_phone', 'profile_picture'
         ]
         widgets = {
-            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter first name'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter last name'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter email'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter phone number'}),
+            'date_of_birth': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'gender': forms.Select(attrs={'class': 'form-control'}),
+            'national_id': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter national ID'}),
+            'passport_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter passport number'}),
+            'photo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'role': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter role'}),
+            'department': forms.Select(attrs={'class': 'form-control'}),
+            'assigned_supervisor': forms.Select(attrs={'class': 'form-control'}),
+            'address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter address'}),
+            'emergency_contact_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter emergency contact name'}),
+            'emergency_contact_phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter emergency contact phone'}),
+            'profile_picture': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
 
 class ReportForm(forms.ModelForm):
@@ -148,7 +224,10 @@ class ReportForm(forms.ModelForm):
         model = Report
         fields = ['patient', 'date', 'description', 'file']
         widgets = {
-            'date': forms.DateInput(attrs={'type': 'date'}),
+            'patient': forms.Select(attrs={'class': 'form-control'}),
+            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter description'}),
+            'file': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
 
 class LabTestForm(forms.ModelForm):
@@ -156,7 +235,11 @@ class LabTestForm(forms.ModelForm):
         model = LabTest
         fields = ['patient', 'doctor', 'test_name', 'test_date', 'results']
         widgets = {
-            'test_date': forms.DateInput(attrs={'type': 'date'}),
+            'test_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'patient': forms.Select(attrs={'class': 'form-select'}),
+            'doctor': forms.Select(attrs={'class': 'form-select'}),
+            'test_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Test Name'}),
+            'results': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Test Results'}),
         }
 
 
