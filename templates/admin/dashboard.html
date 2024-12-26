@@ -27,6 +27,41 @@
     padding: 5px;
 }
 
+.activity-wrapper {
+  overflow-x: auto; /* Allow horizontal scrolling */
+  -webkit-overflow-scrolling: touch; /* For smoother scrolling on mobile */
+  width: 100%; /* Ensure full width */
+}
+
+.activity {
+  display: flex; /* Align activity items horizontally */
+  flex-direction: column; /* Arrange the items in a column */
+  min-width: 100%; /* Ensure the content fits within the width */
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  margin: 5px 0; /* Space between activity items */
+  min-width: 300px; /* Set minimum width for items */
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflowing text */
+}
+
+.activity-item .activity-content {
+  text-overflow: ellipsis; /* Ensure overflowing text is truncated */
+  max-width: calc(100% - 50px); /* Adjust based on content width */
+}
+
+.activity-item .activite-label {
+  width: 100px; /* Set a fixed width for the label */
+}
+
+.activity-item .activity-badge {
+  margin-left: 10px; /* Add space between the badge and content */
+}
+
+
 
 </style>
 <div class="pagetitle">
@@ -382,19 +417,22 @@
           <div class="card-body">
             <h5 class="card-title">Recent Activity <span>| Today</span></h5>
 
-            <div class="activity">
-              {% for activity in recent_activities %}
-
-              <div class="activity-item d-flex">
-                <div class="activite-label">{{ activity.timestamp|date:"g:ia" }}</div>
-                <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                <div class="activity-content">
-                  {{ activity.user.username }} <a href="#" class="fw-bold text-dark">{{ activity.action }}</a>at  {{ activity.timestamp|date:"M d, Y H:i" }}
-                </div>
-              </div><!-- End activity item-->
-              {% endfor %}
+            <div class="activity-wrapper">
+              <div class="activity">
+                {% for activity in recent_activities %}
+                  <div class="activity-item d-flex">
+                    <div class="activite-label">{{ activity.timestamp|date:"g:ia" }}</div>
+                    <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                    <div class="activity-content">
+                      {{ activity.user.username }} <a href="#" class="fw-bold text-dark">{{ activity.action }}</a> at {{ activity.timestamp|date:"M d, Y H:i" }}
+                    </div>
+                  </div><!-- End activity item-->
+                {% endfor %}
+              </div>
             </div>
+            
 
+            
           </div>
         </div><!-- End Recent Activity -->
 

@@ -44,8 +44,8 @@ def dashboard(request):
     # Date ranges
     
     doctors = Doctor.objects.all()
-    patients = Patient.objects.all()[:7]
-    recent_activities = Activity.objects.order_by('-timestamp')[:5]
+    patients = Patient.objects.all()[:6]
+    recent_activities = Activity.objects.order_by('-timestamp')[:6]
     news_updates = NewsUpdate.objects.all().order_by('-published_date')[:7]
     
     # Basic stats
