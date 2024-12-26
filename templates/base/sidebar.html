@@ -12,31 +12,106 @@
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-menu-button-wide"></i><span>Doctors</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed" data-bs-target="#staff-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-people"></i><span>Staff</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="staff-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          
+          <!-- Doctors Sub-List -->
           <li>
-            <a href="{% url 'doctor_list'%}"> 
-              <i class="bi bi-circle"></i><span>Doctors List </span>
+            <a class="nav-link collapsed" data-bs-target="#doctors-subnav" data-bs-toggle="collapse" href="#">
+              <i class="bi bi-person-badge"></i><span>Doctors</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
+            <ul id="doctors-subnav" class="nav-content collapse">
+              <li>
+                <a href="{% url 'doctor_list' %}">
+                  <i class="bi bi-circle"></i><span>Doctors List</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'doctor_create' %}">
+                  <i class="bi bi-circle"></i><span>Add Doctors</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'search_doctors' %}">
+                  <i class="bi bi-circle"></i><span>Search Doctors</span>
+                </a>
+              </li>
+            </ul>
           </li>
+          
+          <!-- Interns Sub-List -->
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#interns-subnav" data-bs-toggle="collapse" href="#">
+              <i class="bi bi-person-lines-fill"></i><span>Interns</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="interns-subnav" class="nav-content collapse">
+              <li>
+                <a href="{% url 'intern_list' %}">
+                  <i class="bi bi-circle"></i><span>Interns List</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'intern_create' %}">
+                  <i class="bi bi-circle"></i><span>Add Intern</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="bi bi-circle"></i><span>Search Intern</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <!--staffs -->
 
           <li>
-            <a href="{% url 'doctor_create'%}"> 
-              <i class="bi bi-circle"></i><span>Add Doctors </span>
+            <a class="nav-link collapsed" data-bs-target="#staff-subnav" data-bs-toggle="collapse" href="#">
+              <i class="bi bi-person-x"></i><span>Staff</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-          </li>
-         
-          <li>
-            <a href="{% url 'search_doctors'%}">
-              <i class="bi bi-circle"></i><span>Search Doctors</span>
-            </a>
+            <ul id="staff-subnav" class="nav-content collapse">
+              <li>
+                <a href="{% url 'staff_list'%}">
+                  <i class="bi bi-circle"></i><span>Staff List</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'staff_create'%}">
+                  <i class="bi bi-circle"></i><span>Add staff</span>
+                </a>
+              </li>
+    
+              <li>
+                <a href="#">
+                  <i class="bi bi-circle"></i><span>Search Staff</span>
+                </a>
+              </li>
+            </ul>
           </li>
           
+          <!-- Non-Staff Sub-List -->
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#nonstaff-subnav" data-bs-toggle="collapse" href="#">
+              <i class="bi bi-person-x"></i><span>Non-Staff</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="nonstaff-subnav" class="nav-content collapse">
+              <li>
+                <a href="{% url 'nonstaff_list' %}">
+                  <i class="bi bi-circle"></i><span>Non-Staff List</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'nonstaff_create' %}">
+                  <i class="bi bi-circle"></i><span>Add Non-Staff</span>
+                </a>
+              </li>
+            </ul>
+          </li>
           
         </ul>
-      </li><!-- End Components Nav -->
+      </li><!-- End Staff Nav -->
+      
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
@@ -66,50 +141,42 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Interns</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-layout-text-window-reverse"></i><span>Deparments</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="{% url 'intern_list'%}">
-              <i class="bi bi-circle"></i><span>Intern List</span>
+            <a href="{% url 'department_list'%}">
+              <i class="bi bi-circle"></i><span>Deparments List</span>
             </a>
           </li>
           <li>
-            <a href="{% url 'intern_create'%}">
-              <i class="bi bi-circle"></i><span>Add Intern</span>
+            <a href="{% url 'department_create'%}">
+              <i class="bi bi-circle"></i><span>Add Deparment</span>
             </a>
           </li>
 
-          <li>
-            <a href=" #">
-              <i class="bi bi-circle"></i><span>Search Intern</span>
-            </a>
-          </li>
+          
 
         </ul>
       </li><!-- End Tables Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-bar-chart"></i><span>Staff</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-bar-chart"></i><span>Appoinments</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="{% url 'staff_list'%}">
-              <i class="bi bi-circle"></i><span>Staff List</span>
+            <a href="{% url 'appointment_list'%}">
+              <i class="bi bi-circle"></i><span>Appoinments List</span>
             </a>
           </li>
           <li>
-            <a href="{% url 'staff_create'%}">
-              <i class="bi bi-circle"></i><span>Add staff</span>
+            <a href="{% url 'appointment_create'%}">
+              <i class="bi bi-circle"></i><span>Add Appoinments</span>
             </a>
           </li>
 
-          <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>Search Staff</span>
-            </a>
-          </li>
+         
           
         </ul>
       </li><!-- End Charts Nav -->
@@ -157,12 +224,7 @@
         </a>
       </li><!-- End F.A.Q Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
-          <i class="bi bi-envelope"></i>
-          <span>Appoinments</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
+      
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'register'%}">

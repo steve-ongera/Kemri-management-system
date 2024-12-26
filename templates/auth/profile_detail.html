@@ -9,11 +9,18 @@
         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
           {% if doctor.profile_picture %}
-                   <img src="{{ profile.profile_image.url }}" alt="Profile Picture" class="img-fluid rounded">
-                {% else %}
-                   <img src="{% static 'assets/img/profile.png'%}" alt="Profile Picture" class="img-fluid rounded">   
-          {% endif %}   
-         
+            <img src="{{ profile.profile_image.url }}" alt="Profile Picture" class="img-fluid rounded">
+          {% else %}
+            <img src="{% static 'assets/img/profile.png'%}" alt="Profile Picture" class="img-fluid rounded">   
+          {% endif %}
+
+          <!-- Edit Profile Icon (Visible only for logged-in user) -->
+          {% if user == profile.user %}
+            <a href="{% url 'edit_profile' %}" class="edit-profile-btn" title="Edit Profile">
+              <i class="bi bi-pencil-square"></i> <!-- Pencil Icon -->
+            </a>
+          {% endif %}
+
           <h2>{{ profile.full_names }}</h2>
           <h3>{{ profile.role }}</h3>
           <div class="social-links mt-2">
@@ -84,6 +91,7 @@
 
             </div>
 
+            <!-- Edit Profile Section -->
             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
               <!-- Profile Edit Form -->
               <form method="POST" enctype="multipart/form-data">
@@ -129,7 +137,7 @@
                 </div>
 
                 <div class="row mb-3">
-                  <label for="country" class="col-md-4 col-lg-3 col-form-label">County</label>
+                  <label for="county" class="col-md-4 col-lg-3 col-form-label">County</label>
                   <div class="col-md-8 col-lg-9">
                     <input name="county" type="text" class="form-control" id="county" value="{{ profile.county }}">
                   </div>
@@ -162,75 +170,6 @@
               </form><!-- End Profile Edit Form -->
             </div>
 
-            <div class="tab-pane fade pt-3" id="profile-settings">
-              <!-- Settings Form -->
-              <form>
-                <div class="row mb-3">
-                  <label for="emailNotifications" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
-                  <div class="col-md-8 col-lg-9">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="changesMade" checked>
-                      <label class="form-check-label" for="changesMade">
-                        Changes made to your account
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="newProducts" checked>
-                      <label class="form-check-label" for="newProducts">
-                        Information on new products and services
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="proOffers">
-                      <label class="form-check-label" for="proOffers">
-                        Marketing and promo offers
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
-                      <label class="form-check-label" for="securityNotify">
-                        Security alerts
-                      </label>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Save Changes</button>
-                </div>
-              </form><!-- End settings Form -->
-            </div>
-
-            <div class="tab-pane fade pt-3" id="profile-change-password">
-              <!-- Change Password Form -->
-              <form>
-                <div class="row mb-3">
-                  <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
-                  <div class="col-md-8 col-lg-9">
-                    <input name="current_password" type="password" class="form-control" id="currentPassword">
-                  </div>
-                </div>
-
-                <div class="row mb-3">
-                  <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
-                  <div class="col-md-8 col-lg-9">
-                    <input name="new_password" type="password" class="form-control" id="newPassword">
-                  </div>
-                </div>
-
-                <div class="row mb-3">
-                  <label for="confirmNewPassword" class="col-md-4 col-lg-3 col-form-label">Confirm New Password</label>
-                  <div class="col-md-8 col-lg-9">
-                    <input name="confirm_new_password" type="password" class="form-control" id="confirmNewPassword">
-                  </div>
-                </div>
-
-                <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Change Password</button>
-                </div>
-              </form><!-- End change password Form -->
-            </div>
-
           </div><!-- End Bordered Tabs -->
         </div>
       </div>
@@ -239,19 +178,5 @@
 </section>
 
 
-<script>
-  // Preview the selected image
-  function previewImage(event) {
-    const image = document.querySelector("img");
-    image.src = URL.createObjectURL(event.target.files[0]);
-  }
-
-  // Remove the profile image
-  function removeProfileImage() {
-    const image = document.querySelector("img");
-    image.src = "{{ profile.profile_pic.url }}";  // Reset to the default or current image
-    document.getElementById('profileImageInput').value = "";  // Reset the file input
-  }
-</script>
 
 {% endblock %}

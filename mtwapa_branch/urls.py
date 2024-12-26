@@ -73,6 +73,7 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     path('profile/', views.profile_detail, name='profile_detail'),
     path('create-profile/', views.create_profile, name='create_profile'),
+    path('edit-profile/', views.edit_profile, name='edit_profile'),
 
 
     path('help-and-support/', views.help_and_support, name='help_and_support'),

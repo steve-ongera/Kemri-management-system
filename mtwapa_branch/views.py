@@ -642,6 +642,25 @@ def create_profile(request):
 
 
 @login_required
+def edit_profile(request):
+    # Get the user's profile
+    profile = Profile.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        # Bind the form to the POST data
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            # Save the updated profile
+            form.save()
+            return redirect('profile_detail')  # Redirect to the profile page after saving
+    else:
+        # Create an empty form bound to the current profile
+        form = ProfileForm(instance=profile)
+
+    return render(request, 'auth/edit_profile.html', {'form': form})
+
+
+@login_required
 def news_edit(request, pk):
     news = get_object_or_404(NewsUpdate, pk=pk)
 

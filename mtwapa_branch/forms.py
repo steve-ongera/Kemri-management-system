@@ -3,6 +3,7 @@ from django import forms
 from .models import *
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from datetime import datetime  # Add this import for datetime
 
 class CustomUserRegistrationForm(forms.Form):
     username = forms.CharField(max_length=150, required=True)
@@ -128,8 +129,27 @@ class AppointmentForm(forms.ModelForm):
         model = Appointment
         fields = ['patient', 'doctor', 'date', 'reason', 'status']
         widgets = {
-            'date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'date': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control', 'placeholder': 'Select date and time'}),
+            'reason': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter reason for appointment'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
         }
+
+   
+    
+    # Optional method to add custom widgets or classes to other fields
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Optionally add placeholder or styles dynamically to each field
+        self.fields['patient'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Select Patient'})
+        self.fields['doctor'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Select Doctor'})
+
+    # Add custom error messages if needed
+    def add_error_messages(self):
+        for field in self.fields:
+            self.fields[field].error_messages = {
+                'required': f"{field} is a mandatory field.",
+                'invalid': f"Invalid {field} entered.",
+            }
 
 
 class MedicalRecordForm(forms.ModelForm):
