@@ -235,6 +235,9 @@ class Staff(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    username = models.CharField(max_length=150, unique=True, blank=True, null=True)  # New field added
+
+
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.position})"
 

@@ -116,17 +116,14 @@ def dashboard(request):
     
     return render(request, 'admin/dashboard.html', context)
 
-
+@login_required
 # List view
 def doctor_list(request):
     doctors = Doctor.objects.all()
     return render(request, 'doctor/doctor_list.html', {'doctors': doctors})
 
 # Detail view
-# def doctor_detail(request, pk):
-#     doctor = get_object_or_404(Doctor, pk=pk)
-#     return render(request, 'doctor/doctor_detail.html', {'doctor': doctor})
-
+@login_required
 def doctor_detail(request, pk):
     doctor = Doctor.objects.get(pk=pk)
     User = get_user_model()
@@ -138,6 +135,7 @@ def doctor_detail(request, pk):
     })
 
 # Create view
+@login_required
 def doctor_create(request):
     if request.method == 'POST':
         form = DoctorForm(request.POST, request.FILES)
@@ -149,6 +147,7 @@ def doctor_create(request):
     return render(request, 'doctor/doctor_form.html', {'form': form})
 
 # Update view
+@login_required
 def doctor_update(request, pk):
     doctor = get_object_or_404(Doctor, pk=pk)
     if request.method == 'POST':
@@ -161,6 +160,7 @@ def doctor_update(request, pk):
     return render(request, 'doctor/update_doctor.html', {'form': form})
 
 # Delete view
+@login_required
 def doctor_delete(request, pk):
     doctor = get_object_or_404(Doctor, pk=pk)
     if request.method == 'POST':
@@ -169,6 +169,7 @@ def doctor_delete(request, pk):
     return render(request, 'doctor/doctor_confirm_delete.html', {'doctor': doctor})
 
 #search  doctor 
+@login_required
 def search_doctors(request):
    query = request.GET.get('q')
    doctors = Doctor.objects.all()
@@ -185,16 +186,19 @@ def search_doctors(request):
 
 
 # List view
+@login_required
 def patient_list(request):
     patients = Patient.objects.all()
     return render(request, 'patient/patient_list.html', {'patients': patients})
 
 # Detail view
+@login_required
 def patient_detail(request, pk):
     patient = get_object_or_404(Patient, pk=pk)
     return render(request, 'patient/patient_detail.html', {'patient': patient})
 
 # Create view
+@login_required
 def patient_create(request):
     if request.method == 'POST':
         form = PatientForm(request.POST, request.FILES)
@@ -206,6 +210,7 @@ def patient_create(request):
     return render(request, 'patient/patient_form.html', {'form': form})
 
 # Update view
+@login_required
 def patient_update(request, pk):
     patient = get_object_or_404(Patient, pk=pk)
     if request.method == 'POST':
@@ -218,14 +223,17 @@ def patient_update(request, pk):
     return render(request, 'patient/patient_form.html', {'form': form})
 
 # Delete view
+@login_required
 def patient_delete(request, pk):
     patient = get_object_or_404(Patient, pk=pk)
     if request.method == 'POST':
         patient.delete()
         return redirect('patient_list')
     return render(request, 'patient/patient_confirm_delete.html', {'patient': patient})
-#search for patient 
 
+
+#search for patient 
+@login_required
 def patient_search(request):
     form = PatientSearchForm(request.GET)
     patients = []
@@ -246,16 +254,19 @@ def patient_search(request):
 
 
 # List view
+@login_required
 def intern_list(request):
     interns = Intern.objects.all()
     return render(request, 'intern/intern_list.html', {'interns': interns})
 
 # Detail view
+@login_required
 def intern_detail(request, pk):
     intern = get_object_or_404(Intern, pk=pk)
     return render(request, 'intern/intern_detail.html', {'intern': intern})
 
 # Create view
+@login_required
 def intern_create(request):
     if request.method == 'POST':
         form = InternForm(request.POST, request.FILES)
@@ -267,6 +278,7 @@ def intern_create(request):
     return render(request, 'intern/intern_form.html', {'form': form})
 
 # Update view
+@login_required
 def intern_update(request, pk):
     intern = get_object_or_404(Intern, pk=pk)
     if request.method == 'POST':
@@ -279,6 +291,7 @@ def intern_update(request, pk):
     return render(request, 'intern/intern_form.html', {'form': form})
 
 # Delete view
+@login_required
 def intern_delete(request, pk):
     intern = get_object_or_404(Intern, pk=pk)
     if request.method == 'POST':
@@ -289,16 +302,19 @@ def intern_delete(request, pk):
 
 
 # List view
+@login_required
 def department_list(request):
     departments = Department.objects.all()
     return render(request, 'department/department_list.html', {'departments': departments})
 
 # Detail view
+@login_required
 def department_detail(request, pk):
     department = get_object_or_404(Department, pk=pk)
     return render(request, 'department/department_detail.html', {'department': department})
 
 # Create view
+@login_required
 def department_create(request):
     if request.method == 'POST':
         form = DepartmentForm(request.POST)
@@ -310,6 +326,7 @@ def department_create(request):
     return render(request, 'department/department_form.html', {'form': form})
 
 # Update view
+@login_required
 def department_update(request, pk):
     department = get_object_or_404(Department, pk=pk)
     if request.method == 'POST':
@@ -322,6 +339,7 @@ def department_update(request, pk):
     return render(request, 'department/department_form.html', {'form': form})
 
 # Delete view
+@login_required
 def department_delete(request, pk):
     department = get_object_or_404(Department, pk=pk)
     if request.method == 'POST':
@@ -330,16 +348,19 @@ def department_delete(request, pk):
     return render(request, 'department/department_confirm_delete.html', {'department': department})
 
 # List view
+@login_required
 def appointment_list(request):
     appointments = Appointment.objects.all()
     return render(request, 'appointment/appointment_list.html', {'appointments': appointments})
 
 # Detail view
+@login_required
 def appointment_detail(request, pk):
     appointment = get_object_or_404(Appointment, pk=pk)
     return render(request, 'appointment/appointment_detail.html', {'appointment': appointment})
 
 # Create view
+@login_required
 def appointment_create(request):
     if request.method == 'POST':
         form = AppointmentForm(request.POST)
@@ -351,6 +372,7 @@ def appointment_create(request):
     return render(request, 'appointment/appointment_form.html', {'form': form})
 
 # Update view
+@login_required
 def appointment_update(request, pk):
     appointment = get_object_or_404(Appointment, pk=pk)
     if request.method == 'POST':
@@ -363,6 +385,7 @@ def appointment_update(request, pk):
     return render(request, 'appointment/appointment_form.html', {'form': form})
 
 # Delete view
+@login_required
 def appointment_delete(request, pk):
     appointment = get_object_or_404(Appointment, pk=pk)
     if request.method == 'POST':
@@ -372,16 +395,19 @@ def appointment_delete(request, pk):
 
 
 # List View
+@login_required
 def medical_record_list(request):
     records = MedicalRecord.objects.all()
     return render(request, 'medical_record/medical_record_list.html', {'records': records})
 
 # Detail View
+@login_required
 def medical_record_detail(request, pk):
     record = get_object_or_404(MedicalRecord, pk=pk)
     return render(request, 'medical_record/medical_record_detail.html', {'record': record})
 
 # Create View
+@login_required
 def medical_record_create(request):
     if request.method == 'POST':
         form = MedicalRecordForm(request.POST)
@@ -393,6 +419,7 @@ def medical_record_create(request):
     return render(request, 'medical_record/medical_record_form.html', {'form': form})
 
 # Update View
+@login_required
 def medical_record_update(request, pk):
     record = get_object_or_404(MedicalRecord, pk=pk)
     if request.method == 'POST':
@@ -405,6 +432,7 @@ def medical_record_update(request, pk):
     return render(request, 'medical_record/medical_record_form.html', {'form': form})
 
 # Delete View
+@login_required
 def medical_record_delete(request, pk):
     record = get_object_or_404(MedicalRecord, pk=pk)
     if request.method == 'POST':
@@ -415,16 +443,21 @@ def medical_record_delete(request, pk):
 
 
 # List View
+@login_required
 def staff_list(request):
     staff_members = Staff.objects.all()
     return render(request, 'staff/staff_list.html', {'staff_members': staff_members})
 
 # Detail View
+@login_required
 def staff_detail(request, pk):
     staff_member = get_object_or_404(Staff, pk=pk)
-    return render(request, 'staff/staff_detail.html', {'staff_member': staff_member})
+    User = get_user_model()
+    user_usernames = User.objects.values_list('username', flat=True)
+    return render(request, 'staff/staff_detail.html', {'staff_member': staff_member ,'user_usernames': user_usernames})
 
 # Create View
+@login_required
 def staff_create(request):
     if request.method == 'POST':
         form = StaffForm(request.POST, request.FILES)
@@ -436,6 +469,7 @@ def staff_create(request):
     return render(request, 'staff/staff_form.html', {'form': form})
 
 # Update View
+@login_required
 def staff_update(request, pk):
     staff_member = get_object_or_404(Staff, pk=pk)
     if request.method == 'POST':
@@ -448,6 +482,7 @@ def staff_update(request, pk):
     return render(request, 'staff/staff_form.html', {'form': form})
 
 # Delete View
+@login_required
 def staff_delete(request, pk):
     staff_member = get_object_or_404(Staff, pk=pk)
     if request.method == 'POST':
@@ -458,16 +493,19 @@ def staff_delete(request, pk):
 
 
 # List View
+@login_required
 def nonstaff_list(request):
     nonstaff_members = NonStaff.objects.all()
     return render(request, 'nonstaff/nonstaff_list.html', {'nonstaff_members': nonstaff_members})
 
 # Detail View
+@login_required
 def nonstaff_detail(request, pk):
     nonstaff_member = get_object_or_404(NonStaff, pk=pk)
     return render(request, 'nonstaff/nonstaff_detail.html', {'nonstaff_member': nonstaff_member})
 
 # Create View
+@login_required
 def nonstaff_create(request):
     if request.method == 'POST':
         form = NonStaffForm(request.POST, request.FILES)
@@ -479,6 +517,7 @@ def nonstaff_create(request):
     return render(request, 'nonstaff/nonstaff_form.html', {'form': form})
 
 # Update View
+@login_required
 def nonstaff_update(request, pk):
     nonstaff_member = get_object_or_404(NonStaff, pk=pk)
     if request.method == 'POST':
@@ -491,6 +530,7 @@ def nonstaff_update(request, pk):
     return render(request, 'nonstaff/nonstaff_form.html', {'form': form})
 
 # Delete View
+@login_required
 def nonstaff_delete(request, pk):
     nonstaff_member = get_object_or_404(NonStaff, pk=pk)
     if request.method == 'POST':
@@ -501,16 +541,19 @@ def nonstaff_delete(request, pk):
 
 
 # List View
+@login_required
 def report_list(request):
     reports = Report.objects.all().order_by('-date')
     return render(request, 'report/report_list.html', {'reports': reports})
 
 # Detail View
+@login_required
 def report_detail(request, pk):
     report = get_object_or_404(Report, pk=pk)
     return render(request, 'report/report_detail.html', {'report': report})
 
 # Create View
+@login_required
 def report_create(request):
     if request.method == 'POST':
         form = ReportForm(request.POST, request.FILES)
@@ -522,6 +565,7 @@ def report_create(request):
     return render(request, 'report/report_form.html', {'form': form})
 
 # Update View
+@login_required
 def report_update(request, pk):
     report = get_object_or_404(Report, pk=pk)
     if request.method == 'POST':
@@ -534,6 +578,7 @@ def report_update(request, pk):
     return render(request, 'report/report_form.html', {'form': form})
 
 # Delete View
+@login_required
 def report_delete(request, pk):
     report = get_object_or_404(Report, pk=pk)
     if request.method == 'POST':
@@ -544,16 +589,19 @@ def report_delete(request, pk):
 
 
 # List View
+@login_required
 def labtest_list(request):
     tests = LabTest.objects.all().order_by('-test_date')
     return render(request, 'labtest/labtest_list.html', {'tests': tests})
 
 # Detail View
+@login_required
 def labtest_detail(request, pk):
     test = get_object_or_404(LabTest, pk=pk)
     return render(request, 'labtest/labtest_detail.html', {'test': test})
 
 # Create View
+@login_required
 def labtest_create(request):
     if request.method == 'POST':
         form = LabTestForm(request.POST)
@@ -565,6 +613,7 @@ def labtest_create(request):
     return render(request, 'labtest/labtest_form.html', {'form': form})
 
 # Update View
+@login_required
 def labtest_update(request, pk):
     test = get_object_or_404(LabTest, pk=pk)
     if request.method == 'POST':
@@ -577,6 +626,7 @@ def labtest_update(request, pk):
     return render(request, 'labtest/labtest_form.html', {'form': form})
 
 # Delete View
+@login_required
 def labtest_delete(request, pk):
     test = get_object_or_404(LabTest, pk=pk)
     if request.method == 'POST':
@@ -584,12 +634,13 @@ def labtest_delete(request, pk):
         return redirect('labtest_list')
     return render(request, 'labtest/labtest_confirm_delete.html', {'test': test})
 
-
+# regsiter view
 def register(request):
     if request.method == 'POST':
         form = CustomUserRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Your account has been created successfully.')
             return redirect('login')  # Redirect to login page after successful registration
     else:
         form = CustomUserRegistrationForm()
@@ -597,7 +648,7 @@ def register(request):
     return render(request, 'auth/register.html', {'form': form})
 
 
-
+#login view
 def user_login(request):
     if request.method == 'POST':
         form = CustomUserLoginForm(request.POST)
@@ -610,6 +661,7 @@ def user_login(request):
                 login(request, user)
                 return redirect('dashboard')  # Redirect to a protected page or admin dashboard after login
             else:
+                messages.error(request, 'Invalid Password or username !')
                 form.add_error(None, 'Invalid username or password')
     else:
         form = CustomUserLoginForm()
@@ -617,22 +669,25 @@ def user_login(request):
     return render(request, 'auth/login.html', {'form': form})
 
 
-
+#logout view
 def user_logout(request):
     logout(request)
+    messages.error(request, 'Loged out successfully !')
     return redirect('login')  # Redirect to login page after logout
 
 
 # View to display the help and support page
+@login_required
 def help_and_support(request):
     return render(request, 'help/help_and_support.html')
 
 
 # View to display the system settings page
+@login_required
 def system_settings(request):
     return render(request, 'help/system_settings.html')
 
-
+@login_required
 @login_required
 def profile_detail(request):
     try:
@@ -821,7 +876,7 @@ def create_chat(request, username):
     return redirect('message_thread', username=username)
 
 
-
+@login_required
 def nav_bar_messages(request):
     # Fetch the latest 3 messages involving the logged-in user
     messages = Message.objects.filter(
@@ -832,7 +887,7 @@ def nav_bar_messages(request):
         'messages': messages,  # Pass the messages to the context
     })
 
-
+#forgot password view 
 def forgot_password(request):
     if request.method == 'POST':
         email = request.POST.get('email')

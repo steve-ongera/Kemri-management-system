@@ -27,6 +27,19 @@
                             {% else %}
                                 <img src="{% static 'assets/img/profile.png' %}" alt="Profile Picture" class="img-fluid rounded" style="max-width: 200px;">
                             {% endif %}
+
+                            {% if staff_member.username %}
+                            {% if staff_member.username in user_usernames %}
+                                    <div style="margin-left:40px"  class="mt-4">
+                                        <a href="{% url 'create_chat' staff_member.username %}" class="btn btn-outline-primary">
+                                            <i class="bi bi-envelope"></i> Message {{ doctor.username }}
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <p>Cannot message this staff.</p>
+                            {% endif %}
+
                         </div>
 
                         <div class="col-md-8">
@@ -36,19 +49,36 @@
                                     <p>{{ staff_member.position }}</p>
                                 </div>
                                 <div class="col-md-6">
+                                    <h6 class="text-muted">Emergency Contact Name</h6>
+                                    <p>{{ staff_member.emergency_contact_name }}</p>
+                                </div>
+
+                                
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <h6 class="text-muted">Address</h6>
+                                    <p>{{ staff_member.address }}</p>
+                                </div>
+    
+                                <div class="col-md-6">
                                     <h6 class="text-muted">Department</h6>
                                     <p>{{ staff_member.department }}</p>
                                 </div>
+
+                                
                             </div>
 
+                            
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <h6 class="text-muted">Email</h6>
                                     <p>{{ staff_member.email }}</p>
                                 </div>
                                 <div class="col-md-6">
-                                    <h6 class="text-muted">Phone</h6>
-                                    <p>{{ staff_member.phone }}</p>
+                                    <h6 class="text-muted">Phone & Emergency contact</h6>
+                                    <p>{{ staff_member.phone }} | {{ staff_member.emergency_contact_phone}}</p>
                                 </div>
                             </div>
 
