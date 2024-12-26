@@ -12,10 +12,15 @@ from django.db.models import Q
 from django.http import HttpResponseForbidden
 from django.db.models import Count
 from datetime import datetime
+from django.http import JsonResponse
+from django.core.serializers.json import DjangoJSONEncoder
+import json
 
 
 @login_required
 def dashboard(request):
+    data = DiseaseTest.objects.values('disease_name', 'test_count')
+    serialized_data = json.dumps(list(data), cls=DjangoJSONEncoder)
     # Get the current year
     current_year = datetime.now().year
 
@@ -39,9 +44,9 @@ def dashboard(request):
     # Date ranges
     
     doctors = Doctor.objects.all()
-    patients = Patient.objects.all()[:6]
+    patients = Patient.objects.all()[:7]
     recent_activities = Activity.objects.order_by('-timestamp')[:5]
-    news_updates = NewsUpdate.objects.all().order_by('-published_date')[:5]
+    news_updates = NewsUpdate.objects.all().order_by('-published_date')[:7]
     
     # Basic stats
     context = {
@@ -58,6 +63,7 @@ def dashboard(request):
         'months': months,
         'male_data': male_data,
         'female_data': female_data,
+        'data': serialized_data,  # Pass the serialized data
     }
     
     

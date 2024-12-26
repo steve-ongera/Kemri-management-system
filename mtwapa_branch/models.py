@@ -360,3 +360,11 @@ class NewsUpdate(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+class DiseaseTest(models.Model):
+    disease_name = models.CharField(max_length=100)
+    test_count = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.disease_name
