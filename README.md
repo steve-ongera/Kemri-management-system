@@ -1,8 +1,9 @@
-# Hospital Management System 🏥
+# KEMRI Data Management System 🏥
 
 ## Overview
 
-A robust Django-based hospital management system designed for efficient healthcare administration. This system provides comprehensive tools for managing medical staff, patients, appointments, and clinical records.
+This is a Django-based web application designed for managing and analyzing data related to disease testing and research at KEMRI (Kenya Medical Research Institute). The system provides a dynamic dashboard for visualizing key statistics and trends, ensuring data-driven decision-making.
+
 
 ![System Status](https://img.shields.io/badge/status-active-success.svg)
 ![Django Version](https://img.shields.io/badge/django-latest-green.svg)
@@ -10,8 +11,14 @@ A robust Django-based hospital management system designed for efficient healthca
 
 ---
 
-## 📋 Core Features
+## 📋 Key Features:
 
+
+-  **Disease Testing Data**: Add and view details of tested diseases, including test counts and trends.
+- **Dynamic Data Visualization**: Interactive donut charts and other visualizations to display disease testing statistics.
+- **Secure User Authentication**: Role-based access for administrators and staff.
+- **Modern Dashboard**: Built with Bootstrap and ECharts for a professional and responsive interface.
+- **Recent Activities and Updates**: Stay updated with the latest activities and news within the system.
 - **Staff Management**: Comprehensive tracking of doctors, nurses, and administrative staff
 - **Patient Care**: Complete patient history and medical records
 - **Appointment System**: Efficient scheduling and management
@@ -19,6 +26,13 @@ A robust Django-based hospital management system designed for efficient healthca
 - **Resource Tracking**: Lab tests, reports, and medical documentation
 
 ---
+
+## Technologies Used:
+- Backend: Django
+- Frontend: HTML, CSS, JavaScript, Bootstrap
+- Database: SQLite/PostgreSQL
+- Charting Library: ECharts
+- Others: Python, Django ORM
 
 ## 🏗 Architecture
 
